@@ -2,7 +2,7 @@ import configparser
 from datetime import timedelta, datetime
 
 cfg = configparser.ConfigParser()
-cfg.read('app/config.cfg')
+cfg.read('config.cfg')
 
 class Config():
     APP_NAME = cfg['app']['name']
@@ -32,33 +32,11 @@ class Config():
         'prefix': cfg['mysql']['prefix'],
         'log_queries': True
     }
-    SLAVE_DATABASE = {
-        'driver': 'mysql',
-        'host': cfg['mysql_slave']['host'],
-        'database': cfg['mysql_slave']['db'],
-        'user': cfg['mysql_slave']['user'],
-        'password': cfg['mysql_slave']['password'],
-        'prefix': cfg['mysql_slave']['prefix'],
-        'log_queries': True
-    }
-    SLAVE_EXPORT_DATABASE = {
-        'driver': 'mysql',
-        'host': cfg['mysql_slave_export']['host'],
-        'database': cfg['mysql_slave_export']['db'],
-        'user': cfg['mysql_slave_export']['user'],
-        'password': cfg['mysql_slave_export']['password'],
-        'prefix': cfg['mysql_slave_export']['prefix'],
-        'log_queries': True
-    }
+    
     ORATOR_DATABASES = {
         'default': 'master',
-        'master': MASTER_DATABASE,
-        'slave': SLAVE_DATABASE,
-        'slave_export': SLAVE_EXPORT_DATABASE
+        'master': MASTER_DATABASE
     }
-
-    if 'unix_socket' in cfg['mysql']:
-        ORATOR_DATABASES['mysql']['unix_socket'] = cfg['mysql']['unix_socket']
 
 class ProductionConfig(Config):
     DEBUG = False

@@ -1,0 +1,8 @@
+databases:
+    mysql:
+        driver: mysql
+        host: localhost
+        database: albasia
+        user: root
+        password: '123456'
+        prefix: ''
