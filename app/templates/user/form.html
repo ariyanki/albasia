@@ -4,16 +4,23 @@
 	User Form
 {% endblock %}
 
+{% block custom_css %} 
+<style type="text/css">
+.errmsg{
+	color: red;
+}
+</style>
+{% endblock %}
+
 {% block body_content %} 
 <center>
 <form name="form_user" id="form_user" method="POST" enctype="multipart/form-data">
 	<h1>User Form</h1>
-	{{errmsg}}</br>
-	Username <input type="text" name="txt_username" id="txt_username" value=""></br>
-	Password <input type="password" name="txt_password" id="txt_password" value=""></br>
-	Fullname <input type="text" name="txt_fullname" id="txt_fullname" value=""></br>
-	Phonenumber <input type="text" name="txt_phonenumber" id="txt_phonenumber" value=""></br>
-	Email <input type="text" name="txt_email" id="txt_email" value=""></br>
+	Username <input type="text" name="username" id="username" value=""> <span class="errmsg">{{errmsg.username}}</span></br>
+	Password <input type="password" name="password" id="password" value=""> <span class="errmsg">{{errmsg.password}}</span></br>
+	Fullname <input type="text" name="fullname" id="fullname" value=""> <span class="errmsg">{{errmsg.fullname}}</span></br>
+	Phonenumber <input type="text" name="phonenumber" id="phonenumber" value=""> <span class="errmsg">{{errmsg.phonenumber}}</span></br>
+	Email <input type="text" name="email" id="email" value=""> <span class="errmsg">{{errmsg.email}}</span></br>
 	<input type="button" name="btn_submit" id="btn_submit" value="Save">
 	<input type="button" name="btn_cancel" id="btn_cancel" value="Cancel">
 </form>

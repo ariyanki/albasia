@@ -4,7 +4,6 @@ from var_dump import var_dump
 
 from app import db
 from orator import Model, Schema
-from app.variable_constant import VariableConstant as VariableConstant
 from datetime import datetime
 
 db.connection().enable_query_log()

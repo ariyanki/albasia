@@ -106,29 +106,29 @@ class User():
         @app.route('/user/add', methods=['GET','POST'])
         @web_permission_checker
         def user_add():
-        #     if request.method == "POST":
-        #         args = request.form.to_dict()
-        #         validator = MyValidator()
-        #         dovalidate = validator.wrp_validate(args, UserModel.addNewSchema)
-        #         if(dovalidate['status'] is False):
-        #             errmsg = util.validate_message_to_dict(dovalidate['messages'])
-        #             flash('Check required fields','error')
-        #             return render_template('user/form.html',errmsg=errmsg,edit_data=None)
+            if request.method == "POST":
+                args = request.form.to_dict()
+                validator = MyValidator()
+                dovalidate = validator.wrp_validate(args, UserModel.addNewSchema)
+                if(dovalidate['status'] is False):
+                    errmsg = util.validate_message_to_dict(dovalidate['messages'])
+                    flash('Check required fields','error')
+                    return render_template('user/form.html',errmsg=errmsg,edit_data=args)
                     
-        #         profile=session['profile']
-        #         args['created_by'] = profile['uid']
-        #         try:
-        #             result = RoleModel.addNew(args)
-        #             flash('Data Successfully Added','success')
-        #             return redirect(util.my_url_for(url_for('master_role_with_datatables_orator')))
-        #         except Exception as e:
-        #             err= util.read_exception_data(e)
-        #             errmsg = ','.join(err['message'])
-        #             if 'Duplicate' in errmsg or 'UNIQUE' in errmsg:
-        #                 flash('Data failed to add due to duplicate record', 'error')
-        #             else:
-        #                 flash(errmsg, 'error')
-        #             # flash(err['message'][-1], 'error')
+                profile=session['profile']
+                args['created_by'] = profile['uid']
+                try:
+                    result = RoleModel.addNew(args)
+                    flash('Data Successfully Added','success')
+                    return redirect(util.my_url_for(url_for('master_role_with_datatables_orator')))
+                except Exception as e:
+                    err= util.read_exception_data(e)
+                    errmsg = ','.join(err['message'])
+                    if 'Duplicate' in errmsg or 'UNIQUE' in errmsg:
+                        flash('Data failed to add due to duplicate record', 'error')
+                    else:
+                        flash(errmsg, 'error')
+                    # flash(err['message'][-1], 'error')
 
             return render_template('/user/form.html')
 

@@ -1,11 +1,6 @@
 import re
 from cerberus import Validator
-# from var_dump import var_dump
 from werkzeug.datastructures import FileStorage
-from datetime import datetime
-
-from app import app, config, db
-from app.libraries.util import Util as util
 
 class MyValidator(Validator):
 
@@ -81,112 +76,6 @@ class MyValidator(Validator):
         if valid is None:
             self._error(field, "Invalid email format")
     
-    """
-    Datetime validator
-    """
-    def _validate_datetime(self, dtformat, field, value):
-        # format reference: https://www.tutorialspoint.com/python/time_strptime.htm
-        try:
-            check= datetime.strptime(value, dtformat)
-        except ValueError as e:
-            app.logger.error('MyValidator\_validate_datetime\Error:', {
-                'field': field,
-                'value': value,
-                'error' : util.read_exception_data(e)
-            })
-            self._error(field, "Invalid datetime format, should be "+str(dtformat))
-        except Exception as e:
-            app.logger.error('MyValidator\_validate_datetime\Error:', util.read_exception_data(e))
-            raise e
-
-    """
-    Check existing field value on DB Table - validator
-    >> implementation: 
-    >> - single value >>> {'type': 'string', 'exists':'table,field'}
-    >> - multipile values >>> {'type': 'list', 'exists':'table,field'}
-    """
-    def _validate_exists(self, exists, field, value):
-        try:
-            check_field=field
-            table= None
-            if(',' in exists):
-                table,check_field = exists.strip().split(",")
-            else:
-                table=exists.strip()
-
-            if(type(value) == list):
-                check= db.table(table).where_in(check_field, value).count()
-            elif (type(value) == str):
-                check= db.table(table).where(check_field, value.strip()).count()
-            else:
-                check= db.table(table).where(check_field, value).count()
-
-            if(check == 0):
-                if(type(value) == list):
-                    self._error(field, "'"+",".join(str(x) for x in value)+"' value is not exists on database")
-                else:
-                    self._error(field, "'"+str(value)+"' value is not exists on database")
-        except Exception as e:
-            app.logger.error('MyValidator\_validate_exists\Error', util.read_exception_data(e))
-            raise e
-
-    """
-    Check unique field value on DB Table - validator
-    >> implementation: 
-    >> {'type': 'string', 'unique':'table,field'}
-    """
-    def _validate_unique(self, unique, field, value):
-        try:
-            check_field=field
-            table= None
-            if(',' in unique):
-                table,check_field = unique.strip().split(",")
-            else:
-                table=unique.strip()
-        
-            if (type(value) == str):
-                check= db.table(table).where(check_field, value.strip()).count()
-            else:
-                check= db.table(table).where(check_field, value).count()
-
-            if(check > 0):
-                self._error(field, "'"+str(value)+"' value is already exists, please use another value")
-        except Exception as e:
-            app.logger.error('MyValidator\_validate_unique\Error', util.read_exception_data(e))
-            raise e
-
-    """
-    Check file_ext on input File - validator
-    >> implementation: 
-    >> {'type': 'file', 'file_ext': ['JPG','PNG','MP4']}
-    """
-    def _validate_file_ext(self, file_ext, field, value):
-        try:
-            if isinstance(value, FileStorage):
-                filename= value.filename.strip()
-                filename= filename.lower()
-                found_counter=0
-                if type(file_ext) is list:
-                    # check for multiple extension
-                    for ext in file_ext:
-                        if filename.endswith('.'+ext.lower()):
-                            found_counter += 1
-                else:
-                    # check for 1 file-extension 
-                    if filename.endswith('.'+file_ext.lower()):
-                        found_counter += 1
-                        
-                if found_counter == 0:
-                    if type(file_ext) is list:
-                        self._error(field, " file extension must be one of these values ("+','.join(file_ext)+")")
-                    else:
-                        self._error(field, " file extension must be "+file_ext+")")
-            else:
-                self._error(field, " must be file type")
-        except Exception as e:
-            app.logger.error('MyValidator\_validate_file_ext\Error', util.read_exception_data(e))
-            raise e
-
     """
     Wrapper validate
     Validate and return messages if not TRUE
