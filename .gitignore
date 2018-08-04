@@ -68,7 +68,6 @@ coverage.xml
 *,cover
 .hypothesis/
 pytestdebug.log
-test_iman.sh
 
 # Translations
 *.mo

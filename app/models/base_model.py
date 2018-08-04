@@ -108,3 +108,8 @@ class CrudBase(Model):
     def getAll(self):
         result = self.get()
         return result
+
+    @classmethod
+    def getPagingData(self, raw_query, limit, offset):
+        result = self.where_raw(raw_query).simple_paginate(limit, offset)
+        return result

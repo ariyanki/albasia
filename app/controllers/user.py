@@ -65,14 +65,47 @@ class User():
             session.pop('_flashes', None)
             return redirect('/')
 
-        @app.route('/user/list')
+        @app.route('/user', methods=['GET','POST'])
         @web_permission_checker
         def user_list():
-            return render_template('/user/list.html')
+            #defaul value on page load
+            rp=10
+            p=1
+            filter={}
+            search = "1=1"
+            args={}
 
-        # @app.route('/user/add', methods=['GET','POST'])
-        # @web_permission_checker
-        # def user_add():
+            #on event triggered
+            if request.method == "POST":
+                args = request.form.to_dict()
+
+                if args['p'] != '':
+                    p=int(args['p'])
+                if args['rp'] != '':
+                    rp=int(args['rp'])
+                    
+                if args['username'] != '':
+                    search+=" and username like '%%"+args['username']+"%%' "
+            else:
+                args['p']=p
+                args['rp']=rp
+                args['q']=''
+
+            result = UserModel.getPagingData(search,rp,p)
+            
+            next=p+1
+            if len(result)<rp:
+                next=p
+
+            prev=p-1
+            if p==1:
+                prev=1
+
+            return render_template('user/list.html', current_user=session['profile'], data_list=result, prev=prev, next=next, args=args)
+
+        @app.route('/user/add', methods=['GET','POST'])
+        @web_permission_checker
+        def user_add():
         #     if request.method == "POST":
         #         args = request.form.to_dict()
         #         validator = MyValidator()
@@ -97,6 +130,12 @@ class User():
         #                 flash(errmsg, 'error')
         #             # flash(err['message'][-1], 'error')
 
-        #     return render_template('/user/form.html')
+            return render_template('/user/form.html')
+
+        @app.route('/user/edit', methods=['GET','POST'])
+        @web_permission_checker
+        def user_edit():
+            return render_template('/user/form.html')
+        
         
 
