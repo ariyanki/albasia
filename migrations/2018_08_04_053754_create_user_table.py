@@ -6,6 +6,9 @@ class CreateUserTable(Migration):
     def up(self):
         with self.schema.create('user') as table:
             table.increments('id')
+            table.string('username', 255)
+            table.string('password', 500)
+            table.string('password_salt', 500).nullable()
             table.string('fullname', 255)
             table.string('phonenumber', 255)
             table.string('email', 255)

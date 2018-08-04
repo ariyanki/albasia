@@ -100,3 +100,11 @@ class User(CrudBase):
         'address': {'type': 'string', 'required': False},
         'postal_code': {'type': 'string', 'required': False}
     }
+
+
+
+    # Override parent method for spesific search query
+    @classmethod
+    def getByUsername(self, username):
+        result = self.where('username', username).first()
+        return result

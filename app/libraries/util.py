@@ -1,6 +1,8 @@
 from functools import wraps
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 import os
+import hashlib
+import base64
 
 class Util(object):
 	
@@ -15,6 +17,21 @@ class Util(object):
                 if "https" in a:
                     url_main = a + url
         return url_main
+
+    @staticmethod
+    def validate_message_to_dict(validate_message):
+        err={}
+        for a in validate_message:
+            msg=a.split(" : ")
+            err[msg[0]]=msg[1]
+        return err
+
+    @staticmethod
+    def generate_password(un, pw, salt):
+        un_bytes = un.encode('utf-8')
+        pw_bytes = pw.encode('utf-8')
+        salt_bytes = salt.encode('utf-8')
+        return hashlib.sha256(un_bytes + pw_bytes + salt_bytes).hexdigest()
 
 def web_permission_checker(function):
     @wraps(function)

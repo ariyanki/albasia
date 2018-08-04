@@ -3,3 +3,4 @@ Flask-RESTful
 flask-orator
 mysqlclient
 var-dump
+Cerberus
