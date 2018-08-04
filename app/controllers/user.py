@@ -57,6 +57,19 @@ class User():
             else:
                 return render_template('/user/signin.html')
 
+        @app.route('/signout')
+        @web_permission_checker
+        def signout():
+            session['profile'] = None
+            session['menu_filter_role_id'] = None
+            session.pop('_flashes', None)
+            return redirect('/')
+
+        @app.route('/user/list')
+        @web_permission_checker
+        def user_list():
+            return render_template('/user/list.html')
+
         # @app.route('/user/add', methods=['GET','POST'])
         # @web_permission_checker
         # def user_add():

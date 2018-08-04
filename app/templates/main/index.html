@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %} 
+	Home
+{% endblock %}
+
+{% block body_content %} 
+<center>
+<h2>Hello world</h2></br>
+<h3>This html template is still very basic, you can modify your own html template as you wish.</h3></br>
+<a href="{{url_for('signin')}}">Sign In</a>
+</center>
+{% endblock %}
+
+{% block custom_script %}
+<script type="text/javascript">
+$(document).ready(function(){
+    
+});
+</script>
+{% endblock %}

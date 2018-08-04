@@ -1,7 +1,8 @@
 # albasia
-MVC Flask Project Template
+Flask MVC Project Template
 
-pre requisite
+pre requisite:
+- Python 3
 - mysql database
 
 Install Command:
@@ -18,3 +19,5 @@ Run:
 - url: http://127.0.0.1:8899/
 - username: sadmin, password: 123456
 
+Package Documentation Used in this Project:
+- https://orator-orm.com/

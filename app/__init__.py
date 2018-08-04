@@ -16,13 +16,8 @@ elif env == 'development':
 
 db = Orator(app)
 
-@app.route("/")
-def hello():
-    if not app.config['WEB_ENABLE']:
-        return "Hai World!"
-    else:
-        return redirect(util.my_url_for(url_for('signin')))
-
 if app.config['WEB_ENABLE']:
     from app.controllers.user import User
     User()
+    from app.controllers.main import Main
+    Main()

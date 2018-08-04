@@ -6,8 +6,9 @@
 		{% block custom_css %} {% endblock %}
 	</head>
 	<body>
-		<h1><a href="{{url_for('home')}}" style="text-decoration: none">Albasia</a></h1>
-		<br><br><br>
+		<h1><a href="{{url_for('home')}}" style="text-decoration: none">Albasia</a> {% block title_body %} {% endblock %}</h1>
+		{% include "menu.html" %}
+		<br><br>
 		{% block body_content %} {% endblock %}
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 		{% block custom_script %} {% endblock %}
