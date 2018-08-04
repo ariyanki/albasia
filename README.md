@@ -6,6 +6,7 @@ pre requisite
 
 Install Command:
 - pip install -r requirement.txt
+- change mysql connection configuration in config.cfg and orator.yaml
 - orator migrate --seed -c orator.yaml
 
 Uninstall Command:
@@ -15,4 +16,5 @@ Uninstall Command:
 Run:
 - python run.py
 - url: http://127.0.0.1:8899/
+- username: sadmin, password: 123456
 
