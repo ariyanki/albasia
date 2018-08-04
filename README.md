@@ -1,5 +1,5 @@
 # albasia
-is a mvc flask project
+MVC Flask Project Template
 
 pre requisite
 - mysql database
