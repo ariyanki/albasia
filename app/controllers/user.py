@@ -4,6 +4,7 @@ from app.libraries.util import Util as util, web_permission_checker
 from app.models.user import User as UserModel
 from app.libraries.validator import MyValidator
 from datetime import datetime
+import uuid
 
 class User():
     def __init__(self):
@@ -31,8 +32,6 @@ class User():
 
                 if user is not None:
                     password = util.generate_password(args['username'],args['password'],user.password_salt)
-                    print(password)
-                    print(user.password)
                     if password != user.password:
                         return render_template('/user/signin.html',errmsg="Not valid username or password.")
                         
@@ -107,35 +106,82 @@ class User():
         @web_permission_checker
         def user_add():
             if request.method == "POST":
+                #get form input
                 args = request.form.to_dict()
+
+                #validate form input
                 validator = MyValidator()
-                dovalidate = validator.wrp_validate(args, UserModel.addNewSchema)
+                dovalidate = validator.wrp_validate(args, UserModel.addNewValidation)
                 if(dovalidate['status'] is False):
                     errmsg = util.validate_message_to_dict(dovalidate['messages'])
-                    flash('Check required fields','error')
-                    return render_template('user/form.html',errmsg=errmsg,edit_data=args)
-                    
-                profile=session['profile']
-                args['created_by'] = profile['uid']
-                try:
-                    result = RoleModel.addNew(args)
-                    flash('Data Successfully Added','success')
-                    return redirect(util.my_url_for(url_for('master_role_with_datatables_orator')))
-                except Exception as e:
-                    err= util.read_exception_data(e)
-                    errmsg = ','.join(err['message'])
-                    if 'Duplicate' in errmsg or 'UNIQUE' in errmsg:
-                        flash('Data failed to add due to duplicate record', 'error')
-                    else:
-                        flash(errmsg, 'error')
-                    # flash(err['message'][-1], 'error')
+                    #print(errmsg)
+                    return render_template('/user/form.html',errmsg=errmsg,edit_data=args)
+                
+                #insert database
+                args['created_by'] = session['profile']['uid']
+                args['password_salt'] = str(uuid.uuid4())
+                args['password'] = util.generate_password(args['username'],args['password'],args['password_salt'])
+                result = UserModel.addNew(args)
 
-            return render_template('/user/form.html')
+                return redirect(util.my_url_for(url_for('user_list')))
+
+            return render_template('/user/form.html',errmsg={},edit_data={})
 
         @app.route('/user/edit', methods=['GET','POST'])
         @web_permission_checker
         def user_edit():
-            return render_template('/user/form.html')
-        
-        
+            qargs = request.args.to_dict()
+            if request.method == "POST":
+                #get form input
+                args = request.form.to_dict()
+                
+                #validate form input
+                validator = MyValidator()
+                dovalidate = validator.wrp_validate(args, UserModel.updateValidation)
+                if(dovalidate['status'] is False):
+                    errmsg = util.validate_message_to_dict(dovalidate['messages'])
+                    #print(errmsg)
+                    return render_template('/user/form.html',errmsg=errmsg,edit_data=args)
+                
+                #update database
+                args['updated_by'] = session['profile']['uid']
+                result = UserModel.doUpdate(qargs['id'],args)
+                
+                return redirect(util.my_url_for(url_for('user_list')))
+            else:
+                args = UserModel.getById(qargs['id'])
 
+            return render_template('/user/form.html',errmsg={},edit_data=args)
+
+        @app.route('/user/change_password', methods=['GET','POST'])
+        @web_permission_checker
+        def user_change_password():
+            qargs = request.args.to_dict()
+            if request.method == "POST":
+                #get form input
+                args = request.form.to_dict()
+                
+                #validate form input
+                validator = MyValidator()
+                dovalidate = validator.wrp_validate(args, UserModel.changePasswordValidation)
+                if(dovalidate['status'] is False):
+                    errmsg = util.validate_message_to_dict(dovalidate['messages'])
+                    #print(errmsg)
+                    return render_template('/user/form_change_password.html',errmsg=errmsg,edit_data=args)
+                
+                user = UserModel.getById(qargs['id'])
+                #update database
+                args['updated_by'] = session['profile']['uid']
+                args['password_salt'] = str(uuid.uuid4())
+                args['password'] = util.generate_password(user.username,args['password'],args['password_salt'])
+                result = UserModel.doUpdate(qargs['id'],args)
+                
+                return redirect(util.my_url_for(url_for('user_list')))
+            
+            return render_template('/user/form_change_password.html',errmsg={},edit_data={})
+
+        @app.route('/user/delete', methods=['GET','POST'])
+        @web_permission_checker
+        def user_delete():
+            UserModel.doDelete(request.args['id'])
+            return redirect(util.my_url_for(url_for('user_list')))

@@ -5,6 +5,7 @@ from var_dump import var_dump
 from app import db
 from orator import Model, Schema
 from datetime import datetime
+from app.variable_constant import VariableConstant
 
 db.connection().enable_query_log()
 
@@ -16,14 +17,6 @@ class CrudBase(Model):
 
     __timestamps__ = False
 
-    srcRawQry = ""
-    srcQryBind = []
-
-    @classmethod
-    def setSrcRawQry(self, strSearch):
-        self.srcRawQry = "%s = %s"
-        self.srcQryBind = [strSearch, strSearch]
-
     @classmethod
     def getList(self, recPerPage=25, search=None, filter={}, page=1, order={}):
         if hasattr(self, '__view__'):
@@ -32,6 +25,7 @@ class CrudBase(Model):
         else:
             me = self
             table = me.__table__
+
         # Filter
         if len(filter):
             for k, v in filter.items():
@@ -41,16 +35,14 @@ class CrudBase(Model):
 
         # Search
         if search is not None and search != '':
-            self.setSrcRawQry(search)
             me = me.where_raw(search)
-            # me = me.where(
-            #     me.where_raw(self.srcRawQry, self.srcQryBind)
-            # )
+
         # Order
         if order is not None and len(order):
             for k, v in order.items():
                 if schema.has_column(table, k) and (v.lower() == 'asc' or v.lower() == 'desc'):
                     me = me.order_by(k, v)
+
         paged = me.paginate(recPerPage, page)
         result = {
             "total": paged.total,
@@ -87,12 +79,7 @@ class CrudBase(Model):
     def doUpdate(self, id, data):
         me = self.find(id)
         if(me is None):
-            return self.response(
-                {},
-                VariableConstant.DATA_NOT_FOUND_RESCODE,
-                VariableConstant.DATA_NOT_FOUND_TITLE,
-                VariableConstant.DATA_NOT_FOUND_MESSAGE,
-                VariableConstant.DATA_NOT_FOUND_STATUS_CODE)
+            raise Exception(VariableConstant.DATA_NOT_FOUND_MESSAGE)
         for v in self.__update_fillable__:
             try:
                 setattr(me, v, data[v])
@@ -102,6 +89,11 @@ class CrudBase(Model):
         me.save()
         savedId = getattr(me, self.__primary_key__)
         return self.getById(savedId)
+
+    @classmethod
+    def doDelete(self, id):
+        me = self.find(id).delete()
+
 
     @classmethod
     def getAll(self):

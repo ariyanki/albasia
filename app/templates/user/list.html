@@ -22,9 +22,11 @@ tr {
 {% endblock %}
 
 {% block body_content %} 
+
 <form method="POST" id="page_form">
 	<input type=hidden name="p" id="p" value="{{args['p']}}">
 	<center>
+		Please Note, this CRUD is just Example, you can modify this with better logic depend with what you need.<br><br>
 		<button type="button" onclick="window.location='{{ url_for('user_add') }}'">+ Add</button>
 		Search by Username <input type="text" name="username" id="username" value="{{args['username']}}"></br>
 		<table border="0" cellpadding="5" cellspacing="5">
@@ -46,7 +48,11 @@ tr {
 					<td>{{data.fullname}}</td>
 					<td>{{data.phonenumber}}</td>
 					<td>{{data.email}}</td>
-					<td><a href="{{ url_for('user_edit') }}?id={{data.id}}" title="Edit">Edit</a> | <a href="{{ url_for('user_edit') }}?id={{data.id}}" title="Delete">Delete</a></td>
+					<td>
+						<a href="{{ url_for('user_edit') }}?id={{data.id}}" title="Edit">Edit</a> | 
+						<a href="{{ url_for('user_change_password') }}?id={{data.id}}" title="Edit">Change Password</a> | 
+						<a href="{{ url_for('user_delete') }}?id={{data.id}}" title="Delete">Delete</a>
+					</td>
 				</tr>
 			{% endfor %}
 			</tbody>
