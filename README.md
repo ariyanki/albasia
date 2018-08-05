@@ -1,8 +1,9 @@
 # albasia
-Flask MVC Project Template
+Python Flask MVC Project Template
 
 pre requisite:
 - Python 3
+- Python Virtual Environment
 - mysql database
 
 Install Command:
