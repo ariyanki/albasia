@@ -9,9 +9,9 @@ class Config():
     SECRET_KEY = cfg['app']['secret_key']
 
     if cfg['mysql']['log_queries'].upper() == 'TRUE':
-        log_query = True
+        LOG_QUERY = True
     else:
-        log_query = False
+        LOG_QUERY = False
 
     if cfg['app']['web_enable'].upper() == 'TRUE':
         WEB_ENABLE = True
@@ -30,7 +30,7 @@ class Config():
         'user': cfg['mysql']['user'],
         'password': cfg['mysql']['password'],
         'prefix': cfg['mysql']['prefix'],
-        'log_queries': True
+        'log_queries': LOG_QUERY
     }
     
     ORATOR_DATABASES = {

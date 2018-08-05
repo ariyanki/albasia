@@ -18,7 +18,7 @@ class CrudBase(Model):
     __timestamps__ = False
 
     @classmethod
-    def getList(self, recPerPage=25, search=None, filter={}, page=1, order={}):
+    def getApiList(self, recPerPage=25, search=None, filter={}, page=1, order={}):
         if hasattr(self, '__view__'):
             me = db.table(self.__view__)
             table = self.__view__
@@ -30,8 +30,6 @@ class CrudBase(Model):
         if len(filter):
             for k, v in filter.items():
                 me = me.where(k, v)
-                # if schema.has_column(table, k) and (v is not None and v != ''):
-                #     me = me.where(k, v)
 
         # Search
         if search is not None and search != '':
@@ -53,6 +51,48 @@ class CrudBase(Model):
             "next_page": paged.next_page,
             "data": paged.serialize()
         }
+        return result
+
+    @classmethod
+    def getWebList(self, search, args):
+        if hasattr(self, '__view__'):
+            me = db.table(self.__view__)
+            table = self.__view__
+        else:
+            me = self
+            table = me.__table__
+        
+        recPerPage=10
+        page=1
+
+        if 'p' in args:
+            page=int(args['p'])
+        else:
+            args['p']=page
+
+        if 'rp' in args:
+            recPerPage=int(args['rp'])
+        else:
+            args['rp']=recPerPage
+
+        if search is not None and search != '':
+            me = me.where_raw(search)
+
+        result = {
+            'args':args
+        }         
+        
+        #use simple_paginate to just use next and prev paging
+        result['data'] = me.simple_paginate(recPerPage, page)
+            
+        result['next']=page+1
+        if len(result['data'])<recPerPage:
+            result['next']=page
+
+        result['prev']=page-1
+        if page==1:
+            result['prev']=1
+
         return result
 
     @classmethod
@@ -98,9 +138,4 @@ class CrudBase(Model):
     @classmethod
     def getAll(self):
         result = self.get()
-        return result
-
-    @classmethod
-    def getPagingData(self, raw_query, limit, offset):
-        result = self.where_raw(raw_query).simple_paginate(limit, offset)
         return result

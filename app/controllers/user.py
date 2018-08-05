@@ -68,39 +68,19 @@ class User():
         @web_permission_checker
         def user_list():
             #defaul value on page load
-            rp=10
-            p=1
-            filter={}
-            search = "1=1"
             args={}
+            args['username']=''
+            search = None
 
-            #on event triggered
             if request.method == "POST":
                 args = request.form.to_dict()
-
-                if args['p'] != '':
-                    p=int(args['p'])
-                if args['rp'] != '':
-                    rp=int(args['rp'])
-                    
+                search = None    
                 if args['username'] != '':
-                    search+=" and username like '%%"+args['username']+"%%' "
-            else:
-                args['p']=p
-                args['rp']=rp
-                args['q']=''
-
-            result = UserModel.getPagingData(search,rp,p)
+                    search =" username like '%%"+args['username']+"%%' "
             
-            next=p+1
-            if len(result)<rp:
-                next=p
+            result = UserModel.getWebList(search, args)
 
-            prev=p-1
-            if p==1:
-                prev=1
-
-            return render_template('user/list.html', current_user=session['profile'], data_list=result, prev=prev, next=next, args=args)
+            return render_template('user/list.html', current_user=session['profile'], data_list=result)
 
         @app.route('/user/add', methods=['GET','POST'])
         @web_permission_checker

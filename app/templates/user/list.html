@@ -24,11 +24,11 @@ tr {
 {% block body_content %} 
 
 <form method="POST" id="page_form">
-	<input type=hidden name="p" id="p" value="{{args['p']}}">
+	<input type=hidden name="p" id="p" value="{{data_list['args']['p']}}">
 	<center>
 		Please Note, this CRUD is just Example, you can modify this with better logic depend with what you need.<br><br>
 		<button type="button" onclick="window.location='{{ url_for('user_add') }}'">+ Add</button>
-		Search by Username <input type="text" name="username" id="username" value="{{args['username']}}"></br>
+		Search by Username <input type="text" name="username" id="username" value="{{data_list['args']['username']}}"></br>
 		<table border="0" cellpadding="5" cellspacing="5">
 			<thead>
 				<tr>
@@ -41,7 +41,7 @@ tr {
 				</tr>
 			</thead>
 			<tbody>
-			{% for data in data_list %}
+			{% for data in data_list['data'] %}
 				<tr>
 					<td>{{data.id}}</td>
 					<td>{{data.username}}</td>
@@ -57,7 +57,7 @@ tr {
 			{% endfor %}
 			</tbody>
 		</table>
-		Show <input type="text" id="rp" name="rp" value="{{args['rp']}}" onkeypress="handle(event)"> entries, Page {{ args['p'] }}<br>
+		Show <input type="text" id="rp" name="rp" value="{{data_list['args']['rp']}}" onkeypress="handle(event)"> entries, Page {{ data_list['args']['p'] }}<br>
 		<button type="button" id="btn_prev">Prev</button>
 		<button type="button" id="btn_next">Next</button>
 	</center>
@@ -78,11 +78,11 @@ $(document).ready(function(){
     	}
 	});
 	$("#btn_prev").click(function(){
-		$("p").val("{{prev}}");
+		$("#p").val("{{data_list['prev']}}");
 		$("#page_form").submit();
 	});
 	$("#btn_next").click(function(){
-		$("p").val("{{next}}");
+		$("#p").val("{{data_list['next']}}");
 		$("#page_form").submit();
 	});
 });

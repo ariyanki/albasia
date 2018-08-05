@@ -24,3 +24,15 @@ Run:
 
 Package Documentation Used in this Project:
 - https://orator-orm.com/
+
+Folder Structure:
+- app: 
+- app/controller_apis: 
+- app/controller: 
+- app/libraries: 
+- app/models: 
+- app/statics: 
+- app/templates: 
+- migrations: 
+- seeds: 
+- tests: 
