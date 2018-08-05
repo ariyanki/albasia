@@ -7,6 +7,7 @@ pre requisite:
 
 Install Command:
 - pip install -r requirement.txt
+- create mysql database schema
 - change orator connection in orator.yaml
 - orator migrate --seed -c orator.yaml
 
