@@ -36,3 +36,6 @@ Folder Structure:
 - migrations: 
 - seeds: 
 - tests: 
+
+
+`Documentation <http://albasia.readthedocs.org>`_
