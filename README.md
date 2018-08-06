@@ -38,4 +38,4 @@ Folder Structure:
 - tests: 
 
 
-`Documentation <http://albasia.readthedocs.org>`_
+[Documentation](http://albasia.readthedocs.org)
