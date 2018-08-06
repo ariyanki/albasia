@@ -11,20 +11,28 @@ class User(CrudBase):
     __add_new_fillable__ = [
         'username',
         'password',
+        'password_salt',
         'fullname', 
         'phonenumber',
         'email',
+        'status',
+        'is_loggedin',
+        'login_attempt',
         'created_by'
         ]
 
     #Define which columns can be updated.
     __update_fillable__ = [
-        'username', 
-        'password', 
-        'password_salt', 
+        'username',
+        'password',
+        'password_salt',
         'fullname', 
         'phonenumber',
-        'email', 
+        'email',
+        'status',
+        'is_loggedin',
+        'login_attempt',
+        'last_loggedin_at',
         'updated_by'
         ]
 
@@ -50,3 +58,9 @@ class User(CrudBase):
     def getByUsername(self, username):
         result = self.where('username', username).first()
         return result
+
+    @classmethod
+    def incrementLoginAttempt(self, uid):
+        result = self.where('id', uid).increment('login_attempt')
+        return result
+
