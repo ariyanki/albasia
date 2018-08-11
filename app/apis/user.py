@@ -91,13 +91,13 @@ class Login(BaseApi, Resource):
             'uid': user.id
         }
 
-## List
+## Use base List
 class ViewList(BaseList, Resource):
     def __init__(self):
         super(ViewList, self).__init__(UserModel)
 
-## List
-class ViewListDeleteField(BaseApi, Resource):
+## without base list
+class ViewListRemoveField(BaseApi, Resource):
     def __init__(self):
         self.Orm = UserModel
 
@@ -121,4 +121,4 @@ class ViewListDeleteField(BaseApi, Resource):
 
 api.add_resource(Login, '/login')
 api.add_resource(ViewList, '/list')
-api.add_resource(ViewListDeleteField, '/list_delete_field')
+api.add_resource(ViewListRemoveField, '/list_delete_field')

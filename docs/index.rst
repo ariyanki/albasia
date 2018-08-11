@@ -1,5 +1,5 @@
 Albasia
-============
+=======
 
 Python Flask MVC Project Template
 
@@ -9,5 +9,6 @@ Contents:
    :maxdepth: 2
 
    installation
+   run
    filefolderstructure
    references
