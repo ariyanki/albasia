@@ -21,6 +21,9 @@ Run:
 - python run.py
 - url: http://127.0.0.1:8899/
 - username: sadmin, password: 123456
+- api url: POST http://127.0.0.1:8899/api/v1/user/login
+- header: Content-Type:application/json
+- request parameter: { "username":"sadmin", "password":"123456" }
 
 
 See the documentation [http://albasia.readthedocs.org](http://albasia.readthedocs.org)
