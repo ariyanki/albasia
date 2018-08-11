@@ -18,79 +18,55 @@ class CrudBase(Model):
     __timestamps__ = False
 
     @classmethod
-    def getApiList(self, recPerPage=25, search=None, filter={}, page=1, order={}):
+    def getList(self, args):
         if hasattr(self, '__view__'):
             me = db.table(self.__view__)
             table = self.__view__
         else:
             me = self
             table = me.__table__
+
+        
+        #Page Number
+        if 'p' in args:
+            args['p']=int(args['p'])
+        else:
+            args['p']=1
+
+        # Record Per Page
+        if 'rp' in args:
+            args['rp']=int(args['rp'])
+        else:
+            args['rp']=25
 
         # Filter
-        if len(filter):
-            for k, v in filter.items():
-                me = me.where(k, v)
+        if 'f' in args:
+            if len(args['f']):
+                for k, v in args['f'].items():
+                    me = me.where(k, v)
 
-        # Search
-        if search is not None and search != '':
-            me = me.where_raw(search)
+        # Search Raw
+        if 'q' in args:
+            if args['q'] is not None and args['q'] != '':
+                me = me.where_raw(args['q'])
 
         # Order
-        if order is not None and len(order):
-            for k, v in order.items():
-                if schema.has_column(table, k) and (v.lower() == 'asc' or v.lower() == 'desc'):
-                    me = me.order_by(k, v)
-
-        paged = me.paginate(recPerPage, page)
-        result = {
-            "total": paged.total,
-            "per_page": paged.per_page,
-            "current_page": paged.current_page,
-            "last_page": paged.last_page,
-            "prev_page": paged.previous_page,
-            "next_page": paged.next_page,
-            "data": paged.serialize()
-        }
-        return result
-
-    @classmethod
-    def getWebList(self, search, args):
-        if hasattr(self, '__view__'):
-            me = db.table(self.__view__)
-            table = self.__view__
-        else:
-            me = self
-            table = me.__table__
-        
-        recPerPage=10
-        page=1
-
-        if 'p' in args:
-            page=int(args['p'])
-        else:
-            args['p']=page
-
-        if 'rp' in args:
-            recPerPage=int(args['rp'])
-        else:
-            args['rp']=recPerPage
-
-        if search is not None and search != '':
-            me = me.where_raw(search)
-
+        if 'o' in args:
+            if args['o'] is not None and len(args['o']):
+                for k, v in args['o'].items():
+                    if schema.has_column(table, k) and (v.lower() == 'asc' or v.lower() == 'desc'):
+                        me = me.order_by(k, v)
         result = {
             'args':args
-        }         
-        
-        #use simple_paginate to just use next and prev paging
-        result['data'] = me.simple_paginate(recPerPage, page)
-            
-        result['next']=page+1
-        if len(result['data'])<recPerPage:
-            result['next']=page
+        }   
+        result['data'] = me.simple_paginate(args['rp'], args['p']).serialize()
 
-        result['prev']=page-1
-        if page==1:
+        result['next']=args['p']+1
+        if len(result['data'])<args['rp']:
+            result['next']=args['p']
+
+        result['prev']=args['p']-1
+        if args['p']==1:
             result['prev']=1
 
         return result

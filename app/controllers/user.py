@@ -74,12 +74,11 @@ class User():
 
             if request.method == "POST":
                 args = request.form.to_dict()
-                search = None    
                 if args['username'] != '':
-                    search =" username like '%%"+args['username']+"%%' "
+                    args['q'] =" username like '%%"+args['username']+"%%' "
             
-            result = UserModel.getWebList(search, args)
-
+            result = UserModel.getList(args)
+            
             return render_template('user/list.html', current_user=session['profile'], data_list=result)
 
         @app.route('/user/add', methods=['GET','POST'])

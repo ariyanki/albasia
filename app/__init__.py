@@ -12,7 +12,7 @@ from app.libraries.util import Util as util
 from werkzeug.contrib.cache import RedisCache
 from app.libraries.exceptions import InvalidResponseException, GeneralResponseException, ConnectionTimeoutException
 
-app = Flask(__name__, static_folder="statics")
+app = Flask(__name__, static_folder="static")
 
 env = os.environ.get('FLASK_ENV', 'development')
 if env == 'production':

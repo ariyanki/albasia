@@ -4,12 +4,12 @@ from flask_jwt_extended import JWTManager, \
     jwt_required, create_access_token, create_refresh_token, \
     get_jwt_claims, get_jwt_identity, get_raw_jwt, \
     jwt_refresh_token_required, get_jti
-from app.apis.base_api import BaseApi
+from app.apis.base_api import BaseApi, BaseList
 from app import jwt, app, cache, db, revoked_store
 from app.variable_constant import VariableConstant
 from app.libraries.validator import MyValidator
 from app.models.user import User as UserModel
-from app.libraries.util import Util as util
+from app.libraries.util import Util as util, permission_checker
 from datetime import datetime
 
 userapi = Blueprint('userapi', __name__)
@@ -34,7 +34,6 @@ class Login(BaseApi, Resource):
             })
 
         user = UserModel.getByUsername(args['username']).serialize()
-        print(user)
         
         # Check Max Login Attempt Mode
         max_login_attempt = int(app.config['MAX_LOGIN_ATTEMPT'])
@@ -82,7 +81,7 @@ class Login(BaseApi, Resource):
         del user['password']
         del user['password_salt']
 
-        return self.response({'data':json.dumps(user)})
+        return self.response({'data':user})
 
     @jwt.user_claims_loader
     def add_claims_to_access_token(identity):
@@ -92,4 +91,34 @@ class Login(BaseApi, Resource):
             'uid': user.id
         }
 
+## List
+class ViewList(BaseList, Resource):
+    def __init__(self):
+        super(ViewList, self).__init__(UserModel)
+
+## List
+class ViewListDeleteField(BaseApi, Resource):
+    def __init__(self):
+        self.Orm = UserModel
+
+    @jwt_required
+    @permission_checker
+    def post(self, id=None):
+        args = request.get_json()
+        result = self.Orm.getList(args)
+        del result['args']
+
+        retval = []
+        for a in result['data']:
+            del a['password']
+            del a['password_salt']
+            retval.append(a)
+
+        result['data']=retval
+        return self.response({'data':result})
+
+
+
 api.add_resource(Login, '/login')
+api.add_resource(ViewList, '/list')
+api.add_resource(ViewListDeleteField, '/list_delete_field')

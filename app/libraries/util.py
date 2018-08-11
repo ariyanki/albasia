@@ -36,25 +36,13 @@ class Util(object):
 def web_permission_checker(function):
     @wraps(function)
     def wrapper(*args, **kwargs):
-        env = os.environ.get('FLASK_ENV', 'development')
-        # if env != 'testing':
-        #     if 'profile' not in session or ('profile' in session and session['profile'] is None):
-        #         # return redirect(url_for('login'))
-        #         return redirect(Util.my_url_for(url_for('login')))
-        #     else:
-        #         # allow all user access /main & /logout
-        #         role_id = session['profile']['role_id']
-        #         if(request.path=='/main' or request.path=='/logout'):
-        #             allowed = 1
-        #         # allow sadmin all path
-        #         elif(VariableConstant.ROLE_ID_SADM == role_id):
-        #             allowed = 1  
-        #         else:
-        #             # allowed = 1
-        #             allowed = PymenuModel.check_allowed_menu(role_id, request.path)
-                                      
-        #         # disallowed 
-        #         if(allowed<1):
-        #             abort(403)
+        #permission checking for web access
+        return function(*args, **kwargs)
+    return wrapper
+
+
+def permission_checker(function):
+    def wrapper(*args, **kwargs):
+        #permission checking for api access
         return function(*args, **kwargs)
     return wrapper

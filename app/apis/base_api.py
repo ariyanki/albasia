@@ -12,6 +12,7 @@ from app.libraries.validator import MyValidator
 from var_dump import var_dump
 import datetime
 from app.variable_constant import VariableConstant as VariableConstant
+from app.libraries.util import Util as util, permission_checker
 
 class BaseApi(Resource):
 
@@ -28,7 +29,7 @@ class BaseApi(Resource):
 
         data=None
         if 'data' in args:
-            data = json.dumps(args['data'], default=myconverter)
+            args['data'] = json.dumps(args['data'], default=myconverter)
             data = json.loads(args['data'])
 
         if 'title' not in args:
@@ -66,3 +67,16 @@ class BaseApi(Resource):
 
         res = api.make_response(response_data, args['status_code'])
         return res
+
+class BaseList(BaseApi, Resource):
+
+    def __init__(self, Model):
+        self.Orm = Model
+
+    @jwt_required
+    @permission_checker
+    def post(self, id=None):
+        args = request.get_json()
+        result = self.Orm.getList(args)
+        del result['args']
+        return self.response({'data':result})
