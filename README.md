@@ -28,14 +28,14 @@ Uninstall Command:
 
 ### Website
 - url: http://127.0.0.1:8899/
-- username: sadmin, password: 123456
+- username: admin, password: 123456
 
 ### Restful Api
 
 Login:
 - api url: POST http://127.0.0.1:8899/api/v1/user/login
 - header: Content-Type:application/json
-- request parameter: { "username":"sadmin", "password":"123456" }
+- request parameter: { "username":"admin", "password":"123456" }
 
 User List:
 - api url: POST http://127.0.0.1:8899/api/v1/user/list

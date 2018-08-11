@@ -5,10 +5,10 @@ class UserTableSeeder(Seeder):
 
     def run(self):
         self.db.table('user').insert({
-            'username': 'sadmin',
-            'password': '6e76f6a69486a89f951910e6e169597a4c4bd267226f6df577851032c296232f',
-            'password_salt': '44a509a2-217e-4227-a67b-5057feb7c22f',
-            'fullname': 'Super Admin',
+            'username': 'admin',
+            'password': '32e6c60eddbdb220e9d52d40c8633b3e666bd0d6d75af14473146ad38552e0e0',
+            'password_salt': '6bf0b1fe-0377-438a-b915-2f9c11009a18',
+            'fullname': 'Administrator',
             'phonenumber': '0700000000000',
             'email': 'admin@admin.com',
             'created_by': 1,

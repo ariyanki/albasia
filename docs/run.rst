@@ -7,7 +7,7 @@ Run the project
 **Website**
 
 - url: http://127.0.0.1:8899/
-- username: sadmin, password: 123456
+- username: admin, password: 123456
 
 **Restful Api**
 
@@ -25,7 +25,7 @@ Login:
 ::
 
     { 
-        "username" : "sadmin", 
+        "username" : "admin", 
         "password" : "123456" 
     }
 
