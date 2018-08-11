@@ -22,9 +22,5 @@ Run:
 - url: http://127.0.0.1:8899/
 - username: sadmin, password: 123456
 
-Package Documentation Used in this Project:
-- ORM: https://orator-orm.com/
-- Flask JWT Extended: https://flask-jwt-extended.readthedocs.io/
-
 
 See the documentation [http://albasia.readthedocs.org](http://albasia.readthedocs.org)
