@@ -3,30 +3,11 @@ Albasia
 
 Python Flask MVC Project Template
 
-pre requisite:
+Contents:
 
-- Python 3
-- Python Virtual Environment
-- mysql database
+.. toctree::
+   :maxdepth: 2
 
-Install Command:
-
-- pip install -r requirement.txt
-- create database schema in your local mysql database
-- change orator connection in orator.yaml
-- orator migrate --seed -c orator.yaml
-
-Uninstall Command:
-
-- orator migrate:reset -c orator.yaml
-- pip uninstall -r requirement.txt
-
-Run:
-
-- change mysql connection in config.cfg
-- python run.py
-- url: http://127.0.0.1:8899/
-- username: sadmin, password: 123456
-- api url: POST http://127.0.0.1:8899/api/v1/user/login
-- header: Content-Type:application/json
-- request parameter: { "username":"sadmin", "password":"123456" }
+   installation
+   filefolderstructure
+   references
