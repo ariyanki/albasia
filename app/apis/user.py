@@ -4,7 +4,7 @@ from flask_jwt_extended import JWTManager, \
     jwt_required, create_access_token, create_refresh_token, \
     get_jwt_claims, get_jwt_identity, get_raw_jwt, \
     jwt_refresh_token_required, get_jti
-from app.controller_apis.base_controller_api import BaseControllerApi
+from app.apis.base_api import BaseApi
 from app import jwt, app, cache, db, revoked_store
 from app.variable_constant import VariableConstant
 from app.libraries.validator import MyValidator
@@ -15,7 +15,7 @@ from datetime import datetime
 userapi = Blueprint('userapi', __name__)
 api = Api(userapi)
 
-class Login(BaseControllerApi, Resource):
+class Login(BaseApi, Resource):
     def __init__(self):
         super(Login, self).__init__()
 

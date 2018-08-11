@@ -3,6 +3,7 @@
 		<title>Albasia
 			{% block title %} {% endblock %}
 		</title>
+		<link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='assets/images/favicon.png') }}"/>
 	</head>
 	<body>
 		{% with messages = get_flashed_messages() %}

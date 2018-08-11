@@ -36,16 +36,9 @@ cache = RedisCache(
     default_timeout=app.config['CACHE_DEFAULT_TIMEOUT'],
     key_prefix=app.config['CACHE_KEY_PREFIX'])
 
-
-if app.config['WEB_ENABLE']:
-    from app.controllers.user import User
-    User()
-    from app.controllers.main import Main
-    Main()
-
-if app.config['API_ENABLE']:
-    from app.controller_apis.user import userapi
-    app.register_blueprint(userapi, url_prefix='/api/v1/user')
+#load routes
+from app.routes import Route
+Route()
 
  # Enable query log for development
 env = os.environ.get('FLASK_ENV', 'development')

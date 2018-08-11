@@ -13,7 +13,7 @@ from var_dump import var_dump
 import datetime
 from app.variable_constant import VariableConstant as VariableConstant
 
-class BaseControllerApi(Resource):
+class BaseApi(Resource):
 
     def response(self,args):
         # args={'data':data,'title':title,'body':body,'status_code':status_code}
