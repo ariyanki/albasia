@@ -47,8 +47,10 @@ User List:
         "rp" : <RecordPerPage>, 
         "p" : <Page>, 
         "f" : {
-            "<field_name>":"<field_value"
+            "<field_name>":"<field_value>"
         },
         "q" : "<raw_query>"
         "o" : {"<field_name>":"<asc_desc>"},
     }
+
+Import file **albasia.postman_collection** to your postman to try the restful api.

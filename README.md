@@ -51,4 +51,6 @@ Content-Type:application/json
 	"o":{"<field_name>":"<asc_desc>"},
 }
 
+Import file **albasia.postman_collection** to your postman to try the restful api.
+
 

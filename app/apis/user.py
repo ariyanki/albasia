@@ -4,13 +4,14 @@ from flask_jwt_extended import JWTManager, \
     jwt_required, create_access_token, create_refresh_token, \
     get_jwt_claims, get_jwt_identity, get_raw_jwt, \
     jwt_refresh_token_required, get_jti
-from app.apis.base_api import BaseApi, BaseList
+from app.apis.base_api import BaseApi, BaseList, BaseCrud
 from app import jwt, app, cache, db, revoked_store
 from app.variable_constant import VariableConstant
 from app.libraries.validator import MyValidator
 from app.models.user import User as UserModel
 from app.libraries.util import Util as util, permission_checker
 from datetime import datetime
+import uuid
 
 userapi = Blueprint('userapi', __name__)
 api = Api(userapi)
@@ -97,7 +98,7 @@ class ViewList(BaseList, Resource):
         super(ViewList, self).__init__(UserModel)
 
 ## without base list
-class ViewListRemoveField(BaseApi, Resource):
+class ViewListWithoutBaseList(BaseApi, Resource):
     def __init__(self):
         self.Orm = UserModel
 
@@ -117,8 +118,37 @@ class ViewListRemoveField(BaseApi, Resource):
         result['data']=retval
         return self.response({'data':result})
 
+class AddNew(BaseCrud, Resource):
+    def __init__(self):
+        super(AddNew, self).__init__(UserModel)
 
+    #Override post method to add different logic
+    @jwt_required
+    @permission_checker
+    def post(self):
+        args = request.get_json()
+        validator = MyValidator()
+        dovalidate = validator.wrp_validate(args, self.Orm.addNewValidation)
+        if(dovalidate['status'] is False):
+            return self.response({
+                'title':'Error',
+                'body':dovalidate['messages'],
+                'status_code':422
+            })
+
+        claims = get_jwt_claims()
+        args['created_by'] = claims['uid']
+        args['password_salt'] = str(uuid.uuid4())
+        args['password'] = util.generate_password(args['username'],args['password'],args['password_salt'])
+        result = self.Orm.addNew(args)
+        return self.response({"data":result.serialize()})
+
+class GetEditDelete(BaseCrud, Resource):
+    def __init__(self):
+        super(GetEditDelete, self).__init__(UserModel)
 
 api.add_resource(Login, '/login')
 api.add_resource(ViewList, '/list')
-api.add_resource(ViewListRemoveField, '/list_delete_field')
+api.add_resource(ViewListWithoutBaseList, '/list_without_base_list')
+api.add_resource(GetEditDelete, '/<string:id>')
+api.add_resource(AddNew, '/')

@@ -80,3 +80,67 @@ class BaseList(BaseApi, Resource):
         result = self.Orm.getList(args)
         del result['args']
         return self.response({'data':result})
+
+class BaseCrud(BaseApi, Resource):
+
+    def __init__(self, Model):
+        self.Orm = Model
+
+    @jwt_required
+    @permission_checker
+    def get(self, id=None):
+        result = self.Orm.getById(id)
+        if (result is not None):
+            result = result.serialize()
+        else:
+            return self.response(VariableConstant.DATA_NOT_FOUND_RESPONSE)
+
+        return self.response({"data":result})
+
+    @jwt_required
+    @permission_checker
+    def post(self):
+        args = request.get_json()
+        validator = MyValidator()
+        dovalidate = validator.wrp_validate(args, self.Orm.addNewValidation)
+        if(dovalidate['status'] is False):
+            return self.response({
+                'title':'Error',
+                'body':dovalidate['messages'],
+                'status_code':422
+            })
+        claims = get_jwt_claims()
+        args['created_by'] = claims['uid']
+        result = self.Orm.addNew(args)
+        return self.response({"data":result.serialize()})
+
+    @jwt_required
+    @permission_checker
+    def put(self, id):
+        args = request.get_json()
+        validator = MyValidator()
+        dovalidate = validator.wrp_validate(args, self.Orm.updateValidation)
+        if(dovalidate['status'] is False):
+            return self.response({
+                'title':'Error',
+                'body':dovalidate['messages'],
+                'status_code':422
+            })
+        claims = get_jwt_claims()
+        args['updated_by'] = claims['uid']
+        me = self.Orm.find(id)
+        if (me is not None):
+            result = self.Orm.doUpdate(id, args)
+            return self.response({"data":result.serialize()})
+        else:
+            return self.response(VariableConstant.DATA_NOT_FOUND_RESPONSE)
+
+    @jwt_required
+    @permission_checker
+    def delete(self, id):
+        me = self.Orm.find(id)
+        if (me is not None):
+            me.delete()
+            return self.response({"data":"Deleted"})
+        else:
+            return self.response(VariableConstant.DATA_NOT_FOUND_RESPONSE)

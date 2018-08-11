@@ -1,0 +1,233 @@
+{
+	"id": "b44adc11-a2b2-98a1-edfd-889bb3be4fe3",
+	"name": "albasia",
+	"description": "",
+	"order": [
+		"4ce9f152-646d-23a2-6d3c-ad28e4c00dff",
+		"89ed0233-e9df-f945-1a58-4fdedca87bb2",
+		"48239251-a460-b9ee-0641-73927ac87606",
+		"d2946ca1-6ed9-9144-be31-c40fe8239c2f",
+		"59bf8f12-d3e5-071d-2776-7e4175dd5008",
+		"3292a453-2c3c-a72b-a261-d4056960b634"
+	],
+	"folders": [],
+	"folders_order": [],
+	"timestamp": 1533985252468,
+	"owner": 0,
+	"public": false,
+	"requests": [
+		{
+			"id": "3292a453-2c3c-a72b-a261-d4056960b634",
+			"headers": "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1MzQwNjY0MTMsImlhdCI6MTUzMzk4MDAxMywibmJmIjoxNTMzOTgwMDEzLCJqdGkiOiJjODUzMTU3Ny1jMjc0LTRhYmEtYjE3NC00N2M1NDNkMDI2MWEiLCJpZGVudGl0eSI6InNhZG1pbiIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyIsInVzZXJfY2xhaW1zIjp7InVzZXJuYW1lIjoic2FkbWluIiwidWlkIjoxfX0.OdFmM7RES7WDL3_UcV7jrw5WIxVZS3WqS9xNpeDvBjw\nContent-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1MzQwNjY0MTMsImlhdCI6MTUzMzk4MDAxMywibmJmIjoxNTMzOTgwMDEzLCJqdGkiOiJjODUzMTU3Ny1jMjc0LTRhYmEtYjE3NC00N2M1NDNkMDI2MWEiLCJpZGVudGl0eSI6InNhZG1pbiIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyIsInVzZXJfY2xhaW1zIjp7InVzZXJuYW1lIjoic2FkbWluIiwidWlkIjoxfX0.OdFmM7RES7WDL3_UcV7jrw5WIxVZS3WqS9xNpeDvBjw",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://127.0.0.1:8899/api/v1/user/",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "POST",
+			"collectionId": "b44adc11-a2b2-98a1-edfd-889bb3be4fe3",
+			"data": [],
+			"dataMode": "raw",
+			"name": "User Add",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1533986366251,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"rawModeData": "{\n\t\"username\": \"test123\",\n\t\"password\": \"password\",\n\t\"fullname\": \"abcde\",\n\t\"phonenumber\": \"021551235\",\n\t\"email\": \"adsab@asdf.com\"\n}"
+		},
+		{
+			"id": "48239251-a460-b9ee-0641-73927ac87606",
+			"headers": "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1MzQwNjY0MTMsImlhdCI6MTUzMzk4MDAxMywibmJmIjoxNTMzOTgwMDEzLCJqdGkiOiJjODUzMTU3Ny1jMjc0LTRhYmEtYjE3NC00N2M1NDNkMDI2MWEiLCJpZGVudGl0eSI6InNhZG1pbiIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyIsInVzZXJfY2xhaW1zIjp7InVzZXJuYW1lIjoic2FkbWluIiwidWlkIjoxfX0.OdFmM7RES7WDL3_UcV7jrw5WIxVZS3WqS9xNpeDvBjw\nContent-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1MzQwNjY0MTMsImlhdCI6MTUzMzk4MDAxMywibmJmIjoxNTMzOTgwMDEzLCJqdGkiOiJjODUzMTU3Ny1jMjc0LTRhYmEtYjE3NC00N2M1NDNkMDI2MWEiLCJpZGVudGl0eSI6InNhZG1pbiIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyIsInVzZXJfY2xhaW1zIjp7InVzZXJuYW1lIjoic2FkbWluIiwidWlkIjoxfX0.OdFmM7RES7WDL3_UcV7jrw5WIxVZS3WqS9xNpeDvBjw",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://127.0.0.1:8899/api/v1/user/1",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "GET",
+			"collectionId": "b44adc11-a2b2-98a1-edfd-889bb3be4fe3",
+			"data": null,
+			"dataMode": "params",
+			"name": "User Get by Id",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1533985448879,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {}
+		},
+		{
+			"id": "4ce9f152-646d-23a2-6d3c-ad28e4c00dff",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://127.0.0.1:8899/api/v1/user/login",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "POST",
+			"collectionId": "b44adc11-a2b2-98a1-edfd-889bb3be4fe3",
+			"data": [],
+			"dataMode": "raw",
+			"name": "Login",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1533985263330,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"rawModeData": "{\n\t\"username\":\"sadmin\",\n\t\"password\":\"123456\"\n}"
+		},
+		{
+			"id": "59bf8f12-d3e5-071d-2776-7e4175dd5008",
+			"headers": "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1MzQwNjY0MTMsImlhdCI6MTUzMzk4MDAxMywibmJmIjoxNTMzOTgwMDEzLCJqdGkiOiJjODUzMTU3Ny1jMjc0LTRhYmEtYjE3NC00N2M1NDNkMDI2MWEiLCJpZGVudGl0eSI6InNhZG1pbiIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyIsInVzZXJfY2xhaW1zIjp7InVzZXJuYW1lIjoic2FkbWluIiwidWlkIjoxfX0.OdFmM7RES7WDL3_UcV7jrw5WIxVZS3WqS9xNpeDvBjw\nContent-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1MzQwNjY0MTMsImlhdCI6MTUzMzk4MDAxMywibmJmIjoxNTMzOTgwMDEzLCJqdGkiOiJjODUzMTU3Ny1jMjc0LTRhYmEtYjE3NC00N2M1NDNkMDI2MWEiLCJpZGVudGl0eSI6InNhZG1pbiIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyIsInVzZXJfY2xhaW1zIjp7InVzZXJuYW1lIjoic2FkbWluIiwidWlkIjoxfX0.OdFmM7RES7WDL3_UcV7jrw5WIxVZS3WqS9xNpeDvBjw",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://127.0.0.1:8899/api/v1/user/1",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "PUT",
+			"collectionId": "b44adc11-a2b2-98a1-edfd-889bb3be4fe3",
+			"data": [],
+			"dataMode": "raw",
+			"name": "User Update by Id",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1533985643806,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"rawModeData": "{\n\t\"fullname\": \"Test\",\n\t\"phonenumber\": \"08123124124\",\n\t\"email\": \"abc@asdf.com\"\n}"
+		},
+		{
+			"id": "89ed0233-e9df-f945-1a58-4fdedca87bb2",
+			"headers": "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1MzQwNjY0MTMsImlhdCI6MTUzMzk4MDAxMywibmJmIjoxNTMzOTgwMDEzLCJqdGkiOiJjODUzMTU3Ny1jMjc0LTRhYmEtYjE3NC00N2M1NDNkMDI2MWEiLCJpZGVudGl0eSI6InNhZG1pbiIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyIsInVzZXJfY2xhaW1zIjp7InVzZXJuYW1lIjoic2FkbWluIiwidWlkIjoxfX0.OdFmM7RES7WDL3_UcV7jrw5WIxVZS3WqS9xNpeDvBjw\nContent-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1MzQwNjY0MTMsImlhdCI6MTUzMzk4MDAxMywibmJmIjoxNTMzOTgwMDEzLCJqdGkiOiJjODUzMTU3Ny1jMjc0LTRhYmEtYjE3NC00N2M1NDNkMDI2MWEiLCJpZGVudGl0eSI6InNhZG1pbiIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyIsInVzZXJfY2xhaW1zIjp7InVzZXJuYW1lIjoic2FkbWluIiwidWlkIjoxfX0.OdFmM7RES7WDL3_UcV7jrw5WIxVZS3WqS9xNpeDvBjw",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://127.0.0.1:8899/api/v1/user/list",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "POST",
+			"collectionId": "b44adc11-a2b2-98a1-edfd-889bb3be4fe3",
+			"data": [],
+			"dataMode": "raw",
+			"name": "User List",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1533985284917,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"rawModeData": "{\"f\":{\"username\":\"bahtiar\"}}"
+		},
+		{
+			"id": "d2946ca1-6ed9-9144-be31-c40fe8239c2f",
+			"headers": "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1MzQwNjY0MTMsImlhdCI6MTUzMzk4MDAxMywibmJmIjoxNTMzOTgwMDEzLCJqdGkiOiJjODUzMTU3Ny1jMjc0LTRhYmEtYjE3NC00N2M1NDNkMDI2MWEiLCJpZGVudGl0eSI6InNhZG1pbiIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyIsInVzZXJfY2xhaW1zIjp7InVzZXJuYW1lIjoic2FkbWluIiwidWlkIjoxfX0.OdFmM7RES7WDL3_UcV7jrw5WIxVZS3WqS9xNpeDvBjw\nContent-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1MzQwNjY0MTMsImlhdCI6MTUzMzk4MDAxMywibmJmIjoxNTMzOTgwMDEzLCJqdGkiOiJjODUzMTU3Ny1jMjc0LTRhYmEtYjE3NC00N2M1NDNkMDI2MWEiLCJpZGVudGl0eSI6InNhZG1pbiIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyIsInVzZXJfY2xhaW1zIjp7InVzZXJuYW1lIjoic2FkbWluIiwidWlkIjoxfX0.OdFmM7RES7WDL3_UcV7jrw5WIxVZS3WqS9xNpeDvBjw",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://127.0.0.1:8899/api/v1/user/1",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "DELETE",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1533986457427,
+			"name": "User Delete by Id",
+			"description": "",
+			"collectionId": "b44adc11-a2b2-98a1-edfd-889bb3be4fe3",
+			"responses": []
+		}
+	]
+}

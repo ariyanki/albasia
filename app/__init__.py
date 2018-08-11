@@ -1,4 +1,5 @@
 import app.config
+import orator
 import os
 import logging.handlers
 import redis
@@ -119,6 +120,31 @@ def handle_exception(error):
 
     traceback.print_exc()
     return jsonify(data), status_code
+
+
+@app.errorhandler(orator.exceptions.query.QueryException)
+def handle_query_exception(error):
+
+    message = str(error.args[2])
+
+    if type(message) == list:
+        error_message= message
+    else:
+        error_message=[message]
+
+    data = {
+        'message': {
+            'title': "Query Error",
+            'body': "Please check your error"
+        },
+        'data':{
+            'errors':error_message
+        }
+    }
+
+    logRequest(data, 422)
+
+    return jsonify(data), 422
 
 def logRequest(data, status_code):
     if (request.method == "GET") or (request.method == "DELETE"):
