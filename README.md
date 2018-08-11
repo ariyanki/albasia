@@ -1,6 +1,10 @@
 # albasia
 Python Flask MVC Project Template
 
+See the documentation [http://albasia.readthedocs.org](http://albasia.readthedocs.org)
+
+## Installation
+
 pre requisite:
 - Python 3
 - Python Virtual Environment
@@ -26,4 +30,4 @@ Run:
 - request parameter: { "username":"sadmin", "password":"123456" }
 
 
-See the documentation [http://albasia.readthedocs.org](http://albasia.readthedocs.org)
+
