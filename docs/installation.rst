@@ -5,10 +5,11 @@ pre requisite:
 
 - Python 3
 - Python Virtual Environment
-- mysql database
+- MySQL database
 
 Install Command:
 
+- Activate your Python Virtual Environment
 - pip install -r requirement.txt
 - create database schema in your local mysql database
 - change orator connection in orator.yaml
