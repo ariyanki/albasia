@@ -2,14 +2,21 @@ Run the project
 ===============
 
 - change project mysql connection in config.cfg
-- python run.py
+- Run the project:
 
-**Website**
+::
+
+    $ python run.py
+
+
+**Access the Website**
 
 - url: http://127.0.0.1:8899/
 - username: admin, password: 123456
 
-**Restful Api**
+**Access the Restful Api**
+
+Import file **albasia.postman_collection** to your postman to try the restful api. This is some example:
 
 Login:
 
@@ -52,5 +59,3 @@ User List:
         "q" : "<raw_query>"
         "o" : {"<field_name>":"<asc_desc>"},
     }
-
-Import file **albasia.postman_collection** to your postman to try the restful api.

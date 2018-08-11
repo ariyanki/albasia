@@ -1,7 +1,7 @@
 Installation
 ============
 
-pre requisite:
+prerequisite:
 
 - Python 3
 - Python Virtual Environment
@@ -10,12 +10,30 @@ pre requisite:
 Install Command:
 
 - Activate your Python Virtual Environment
-- pip install -r requirement.txt
-- create database schema in your local mysql database
-- change orator connection in orator.yaml
-- orator migrate --seed -c orator.yaml
+- Install project package requirement, run command:
+
+::
+
+    $ pip install -r requirement.txt
+
+- Create database schema in your local mysql database
+- Change orator connection in orator.yaml
+- Create database table & data, run command:
+
+::
+
+    $ orator migrate --seed -c orator.yaml
 
 Uninstall Command:
 
-- orator migrate:reset -c orator.yaml
-- pip uninstall -r requirement.txt
+- Remove database table & data, run command:
+
+::
+
+    $ orator migrate:reset -c orator.yaml
+
+- Remove project package requirement, run command:
+
+::
+
+    $ pip uninstall -r requirement.txt
