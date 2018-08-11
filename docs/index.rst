@@ -12,7 +12,7 @@ pre requisite:
 Install Command:
 
 - pip install -r requirement.txt
-- create mysql database schema
+- create database schema in your local mysql database
 - change orator connection in orator.yaml
 - orator migrate --seed -c orator.yaml
 
@@ -27,21 +27,6 @@ Run:
 - python run.py
 - url: http://127.0.0.1:8899/
 - username: sadmin, password: 123456
-
-Package Documentation Used in this Project:
-
-- ORM: https://orator-orm.com/
-- Flask JWT Extended: https://flask-jwt-extended.readthedocs.io/
-
-Folder Structure:
-
-- app: 
-- app/controller_apis: 
-- app/controller: 
-- app/libraries: 
-- app/models: 
-- app/statics: 
-- app/templates: 
-- migrations: 
-- seeds: 
-- tests: 
+- api url: POST http://127.0.0.1:8899/api/v1/user/login
+- header: Content-Type:application/json
+- request parameter: { "username":"sadmin", "password":"123456" }
