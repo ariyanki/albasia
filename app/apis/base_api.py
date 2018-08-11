@@ -17,7 +17,6 @@ from app.libraries.util import Util as util, permission_checker
 class BaseApi(Resource):
 
     def response(self,args):
-        # args={'data':data,'title':title,'body':body,'status_code':status_code}
         # convert datetime to string to prevent object of type
         # datetime is not json
         # serializable

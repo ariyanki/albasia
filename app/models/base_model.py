@@ -54,7 +54,7 @@ class CrudBase(Model):
         if 'o' in args:
             if args['o'] is not None and len(args['o']):
                 for k, v in args['o'].items():
-                    if schema.has_column(table, k) and (v.lower() == 'asc' or v.lower() == 'desc'):
+                    if (v.lower() == 'asc' or v.lower() == 'desc'):
                         me = me.order_by(k, v)
         result = {
             'args':args
