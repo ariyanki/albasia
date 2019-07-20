@@ -9,6 +9,7 @@ pre requisite:
 - Python 3
 - Python Virtual Environment
 - MySQL database
+- Redis
 
 Install Command:
 - Activate your Python Virtual Environment
