@@ -12,6 +12,7 @@ from flask_orator import Orator
 from app.libraries.util import Util as util
 from werkzeug.contrib.cache import RedisCache
 from app.libraries.exceptions import InvalidResponseException, GeneralResponseException, ConnectionTimeoutException
+from logstash_formatter import LogstashFormatterV1
 
 app = Flask(__name__, static_folder="static")
 
@@ -48,6 +49,30 @@ if env == 'development' and app.config['LOG_QUERY']:
     logger.setLevel(logging.DEBUG)
     logging.warning('Orator query log started')
 
+# Log
+handlers = [
+    logging.handlers.RotatingFileHandler(
+        "%s/%s" % (
+            app.root_path,
+            app.config['LOG_RESOURCE_PATH']),
+        encoding= app.config['BLUEPRINT']['LOGS']['FILE_ENCODING'],
+        maxBytes= int(app.config['BLUEPRINT']['LOGS']['FILE_MAX_BYTES']),
+        backupCount= int(app.config['BLUEPRINT']['LOGS']['FILE_BACKUP_COUNT'])),
+    logging.StreamHandler()
+]
+fmt = {
+    'extra': {
+        'type': 'albasia-local'
+    }
+}
+jfmt = json.dumps(fmt)
+logsts_formatter = LogstashFormatterV1(
+    fmt=jfmt,
+    datefmt="%Y-%m-%d %H:%M:%S")
+app.logger.setLevel(logging.DEBUG)
+for h in handlers:
+    h.setFormatter(logsts_formatter)
+    app.logger.addHandler(h)
 
 # Exception Handler
 # Invalid response

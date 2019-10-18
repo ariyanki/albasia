@@ -68,6 +68,20 @@ class Config():
     JWT_REFRESH_TOKEN_EXPIRES = timedelta(**jwt_config_rte)
 
 
+    LOG_RESOURCE_PATH = cfg['app']['log_path']
+
+    # Blueprint config autoloader
+    BLUEPRINT = {}
+    fbpcf = [key for key, value in cfg.items() if 'blueprint_' in key.lower()]
+    if len(fbpcf) > 0:
+        for bp in fbpcf:
+            for k, v in cfg[bp].items():
+                kname = bp.replace('blueprint_', '').upper()
+                if kname not in BLUEPRINT:
+                    BLUEPRINT[kname] = {}
+                BLUEPRINT[kname][k.upper()] = v
+
+
 class ProductionConfig(Config):
     DEBUG = False
 
