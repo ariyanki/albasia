@@ -1,0 +1,90 @@
+{% extends "base_signed_in.html" %}
+
+{% block title %} 
+	User List
+{% endblock %}
+
+{% block title_body %} 
+	User List
+{% endblock %}
+
+{% block custom_css %} 
+<style type="text/css">
+th {
+    background-color: black;
+    color: white;
+}
+tr {
+    background-color: grey;
+    color: white;
+}
+</style>
+{% endblock %}
+
+{% block body_content %} 
+
+<form method="POST" id="page_form">
+	<input type=hidden name="p" id="p" value="{{data_list['args']['p']}}">
+	<center>
+		Please Note, this CRUD is just Example, you can modify this with better logic depend with what you need.<br><br>
+		<button type="button" onclick="window.location='{{ url_for('user_add') }}'">+ Add</button>
+		Search by Username <input type="text" name="username" id="username" value="{{data_list['args']['username']}}"></br>
+		<table border="0" cellpadding="5" cellspacing="5">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Username</th>
+					<th>Fullname</th>
+					<th>Phonenumber</th>
+					<th>Email</th>
+					<th>Action</th>
+				</tr>
+			</thead>
+			<tbody>
+			{% for data in data_list['data'] %}
+				<tr>
+					<td>{{data.id}}</td>
+					<td>{{data.username}}</td>
+					<td>{{data.fullname}}</td>
+					<td>{{data.phonenumber}}</td>
+					<td>{{data.email}}</td>
+					<td>
+						<a href="{{ url_for('user_edit') }}?id={{data.id}}" title="Edit">Edit</a> | 
+						<a href="{{ url_for('user_change_password') }}?id={{data.id}}" title="Edit">Change Password</a> | 
+						<a href="{{ url_for('user_delete') }}?id={{data.id}}" title="Delete">Delete</a>
+					</td>
+				</tr>
+			{% endfor %}
+			</tbody>
+		</table>
+		Show <input type="text" id="rp" name="rp" value="{{data_list['args']['rp']}}" onkeypress="handle(event)"> entries, Page {{ data_list['args']['p'] }}<br>
+		<button type="button" id="btn_prev">Prev</button>
+		<button type="button" id="btn_next">Next</button>
+	</center>
+</form>
+{% endblock %}
+
+{% block custom_script %}
+<script type="text/javascript">
+$(document).ready(function(){
+	$( "#rp" ).keypress(function(e) {
+    	if(e.which == 13) {
+        	$("#page_form").submit();
+    	}
+	});
+	$( "#username" ).keypress(function(e) {
+    	if(e.which == 13) {
+        	$("#page_form").submit();
+    	}
+	});
+	$("#btn_prev").click(function(){
+		$("#p").val("{{data_list['prev']}}");
+		$("#page_form").submit();
+	});
+	$("#btn_next").click(function(){
+		$("#p").val("{{data_list['next']}}");
+		$("#page_form").submit();
+	});
+});
+</script>
+{% endblock %}

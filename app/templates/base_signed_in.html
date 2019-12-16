@@ -1,0 +1,26 @@
+<html>
+	<head>
+		<title>Albasia
+			{% block title %} {% endblock %}
+		</title>
+		<link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='assets/images/favicon.png') }}"/>
+	</head>
+	<body>
+		{% with messages = get_flashed_messages() %}
+		  {% if messages %}
+		    <ul class=flashes>
+		    {% for message in messages %}
+		      <li>{{ message }}</li>
+		    {% endfor %}
+		    </ul>
+		  {% endif %}
+		{% endwith %}
+		{% block custom_css %} {% endblock %}
+		<h1><a href="{{url_for('home')}}" style="text-decoration: none">Albasia</a> {% block title_body %} {% endblock %}</h1>
+		{% include "menu.html" %}
+		<br><br>
+		{% block body_content %} {% endblock %}
+		<script src="{{ url_for('static', filename='assets/js/jquery.min.js') }}" type="text/javascript"></script>
+		{% block custom_script %} {% endblock %}
+	</body>
+</html>

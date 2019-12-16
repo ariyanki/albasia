@@ -1,0 +1,43 @@
+{% extends "base_signed_in.html" %}
+
+{% block title %} 
+	User Form
+{% endblock %}
+
+{% block custom_css %} 
+<style type="text/css">
+.errmsg{
+	color: red;
+}
+</style>
+{% endblock %}
+
+{% block body_content %} 
+<center>
+<form name="form_user" id="form_user" method="POST" enctype="multipart/form-data">
+	<h1>User Form</h1>
+	{% if not request.args.get('id') %}
+	Username <input type="text" name="username" id="username" value="{{edit_data.username}}"> <span class="errmsg">{{errmsg.username}}</span></br>
+	Password <input type="password" name="password" id="password" value="{{edit_data.password}}"> <span class="errmsg">{{errmsg.password}}</span></br>
+	{% endif %}
+	Fullname <input type="text" name="fullname" id="fullname" value="{{edit_data.fullname}}"> <span class="errmsg">{{errmsg.fullname}}</span></br>
+	Phonenumber <input type="text" name="phonenumber" id="phonenumber" value="{{edit_data.phonenumber}}"> <span class="errmsg">{{errmsg.phonenumber}}</span></br>
+	Email <input type="text" name="email" id="email" value="{{edit_data.email}}"> <span class="errmsg">{{errmsg.email}}</span></br>
+	<input type="button" name="btn_submit" id="btn_submit" value="Save">
+	<input type="button" name="btn_cancel" id="btn_cancel" value="Cancel">
+</form>
+</center>
+{% endblock %}
+
+{% block custom_script %}
+<script type="text/javascript">
+$(document).ready(function(){
+    $("#btn_submit").click(function(){
+        $("#form_user").submit();
+    });
+    $("#btn_cancel").click(function(){
+    	$(location).attr('href', '{{url_for('user_list')}}')
+    });
+});
+</script>
+{% endblock %}

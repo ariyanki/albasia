@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %} 
+	Sign In
+{% endblock %}
+
+{% block body_content %} 
+<center>
+<form method="POST" name="form_signin" id="form_signin">
+	<br><br><br>
+	<h1>Login</h1>
+	<span style="color:red">{{errmsg}}</span><br>
+	Username <input type="text" name="username" id="username" value=""><br>
+	Password <input type="password" name="password" id="password" value=""><br>
+	<a href="#" id="signin">Sign In</a>
+</form>
+</center>
+{% endblock %}
+
+{% block custom_script %}
+<script type="text/javascript">
+$(document).ready(function(){
+    $("#signin").click(function(){
+        $("#form_signin").submit();
+    });
+});
+</script>
+{% endblock %}
