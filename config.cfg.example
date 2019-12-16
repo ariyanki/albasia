@@ -1,0 +1,36 @@
+[app]
+name = albasia
+secret_key = sessionsecretkey1232353452
+web_enable = true
+api_enable = true
+max_login_attempt = 3
+log_path = resources/logs/albasia.log
+
+[mysql]
+host = 127.0.0.1
+db = albasia
+user = root
+password = 123456
+prefix =
+log_queries = true
+
+[cache]
+prefix = albasia_
+timeout = 43200
+
+[redis]
+host = 127.0.0.1
+port = 6379
+
+[jwt]
+secret = xDKLjr1mXLhcPXbO3sp8nL9bVn7y8gl8dIdmpJzmuudH9UeLa71i
+token_exp = 1
+refresh_exp = 30
+algo = HS256
+blacklist_enabled = 1
+
+[blueprint_logs]
+# FILE_MAX_BYTES=50000000
+FILE_MAX_BYTES=5000000
+FILE_BACKUP_COUNT=5
+FILE_ENCODING=utf8
