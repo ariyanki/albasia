@@ -8,6 +8,10 @@ class Route():
             User()
             from app.controllers.main import Main
             Main()
+        else:
+        	from app.controllers.empty import Empty
+            Empty()
+            
 
         if app.config['API_ENABLE']:
             from app.apis.user import userapi
