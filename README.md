@@ -55,3 +55,94 @@ Content-Type:application/json
 Import file **albasia.postman_collection** to your postman to try the restful api.
 
 
+## Linux Service Configuration
+
+This example is using gunicorn, Read about gunicorn [here](https://gunicorn.org)
+
+Create Socket File:
+
+```go
+sudo nano /etc/systemd/system/albasia.socket
+```
+
+Socket File Content:
+```go
+[Unit]
+Description=albasia socket
+
+[Socket]
+ListenStream=/tmp/albasia.sock
+
+[Install]
+WantedBy=sockets.target
+```
+
+Create Service File:
+```go
+sudo nano /etc/systemd/system/albasia.service 
+```
+
+Service File Content:
+```go
+[Unit]
+Description=albasia daemon
+Requires=albasia.socket
+After=network.target
+
+[Service]
+PIDFile=/run/gunicorn/pid
+User=root
+Group=root
+RuntimeDirectory=gunicorn
+WorkingDirectory=/www/albasiabackend
+ExecStart=export FLASK_ENV=production
+ExecStart=/www/python37/bin/gunicorn --bind unix:/tmp/albasia.sock wsgi:app --timeout=30
+ExecReload=/bin/kill -s HUP $MAINPID
+ExecStop=/bin/kill -s TERM $MAINPID
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
+```
+
+notes: change directory path based on you configuration.
+
+Start the service:
+```go
+sudo systemctl start albasia
+sudo systemctl enable albasia
+```
+
+## Nginx configuration
+
+Add server configuration in your nginx site:
+```go
+server {
+        listen          80;
+        server_name     albasia.abcdef.id;
+        location / {
+            proxy_pass http://unix:/tmp/albasia.sock;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header Host $http_host;
+            proxy_set_header X-NginX-Proxy true;
+
+            proxy_headers_hash_max_size 51200;
+            proxy_headers_hash_bucket_size 6400;
+
+            proxy_redirect off;
+            proxy_connect_timeout       300;
+            proxy_send_timeout          300;
+            proxy_read_timeout          300;
+
+            proxy_http_version 1.1;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection "upgrade";
+        }
+
+}
+```
+
+Restart nginx.
+
+

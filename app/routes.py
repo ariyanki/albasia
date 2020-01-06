@@ -9,7 +9,7 @@ class Route():
             from app.controllers.main import Main
             Main()
         else:
-        	from app.controllers.empty import Empty
+            from app.controllers.empty import Empty
             Empty()
             
 

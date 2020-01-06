@@ -115,3 +115,9 @@ class CrudBase(Model):
     def getAll(self):
         result = self.get()
         return result
+
+    @classmethod
+    def is_exists(cls, filter_data: dict):
+        me = cls.where(filter_data)
+        count = me.get().count()
+        return bool(count)

@@ -46,26 +46,90 @@ class BaseApi(Resource):
             'data': data
         }
 
+        if (request.method == "GET") or (request.method == "DELETE"):
+            request_data = ''
+        else:
+            request_data = request.get_json()
+
+        exclude_request_data = ['/api/v1/user/login','/api/v1/user/register']
+
+        if request.path in exclude_request_data:
+            request_data = ''
+
+        claims = get_jwt_claims()
+
+        error_data = {
+            'endpoint': request.method + " " + request.path,
+            'status_code': args['status_code'],
+            'user_claim': claims,
+            'request': request_data,
+            'response': response_data
+        }
         if args['status_code'] != 200:
-            #write log if not 200
-            if (request.method == "GET") or (request.method == "DELETE"):
-                request_data = ''
-            else:
-                request_data = request.get_json()
-
-            claims = get_jwt_claims()
-
-            error_data = {
-                'endpoint': request.method + " " + request.path,
-                'status_code': args['status_code'],
-                'user_claim': claims,
-                'request': request_data,
-                'response': response_data
-            }
             app.logger.error('ERROR API RESPONSE',error_data)
+        else:
+            app.logger.info('API ACCESS',error_data)
 
         res = api.make_response(response_data, args['status_code'])
         return res
+
+    def response_plain(self,args):
+        # convert datetime to string to prevent object of type
+        # datetime is not json
+        # serializable
+        def myconverter(o):
+            if isinstance(o, datetime.datetime):
+                return o.__str__()
+            if isinstance(o, datetime.date):
+                return o.__str__()
+            if isinstance(o, decimal.Decimal):
+                return float(o)
+        data=None
+        if 'data' in args:
+            args['data'] = json.dumps(args['data'], default=myconverter)
+            data = json.loads(args['data'])
+        if 'status_code' not in args:
+            args['status_code']=200
+
+        response_data = data
+
+        if (request.method == "GET") or (request.method == "DELETE"):
+            request_data = ''
+        else:
+            request_data = request.get_json()
+
+        exclude_request_data = ['/api/v1/user/login','/api/v1/user/register']
+
+        if request.path in exclude_request_data:
+            request_data = ''
+
+        claims = get_jwt_claims()
+
+        error_data = {
+            'endpoint': request.method + " " + request.path,
+            'status_code': args['status_code'],
+            'user_claim': claims,
+            'request': request_data,
+            'response': response_data
+        }
+        if args['status_code'] != 200:
+            app.logger.error('ERROR API RESPONSE',error_data)
+        else:
+            app.logger.info('API ACCESS',error_data)
+
+        res = api.make_response(response_data, args['status_code'])
+        return res
+
+    def response_html(self,args):
+        if 'status_code' not in args:
+            args['status_code']=200
+
+        log_data = {
+            'args': args
+        }
+        app.logger.info('HTML ACCESS',log_data)
+
+        return make_response(render_template(args['template_path'],data=args['data']), args['status_code'],{'Content-Type': 'text/html'})
 
 class BaseList(BaseApi, Resource):
 
