@@ -6,6 +6,7 @@ from app import db
 from orator import Model, Schema
 from datetime import datetime
 from app.variable_constant import VariableConstant
+from bson.objectid import ObjectId
 
 db.connection().enable_query_log()
 
@@ -18,14 +19,13 @@ class CrudBase(Model):
     __timestamps__ = False
 
     @classmethod
-    def getList(self, args):
+    def getList(self, args, qraw=None):
         if hasattr(self, '__view__'):
             me = db.table(self.__view__)
-            table = self.__view__
+        elif hasattr(self, '__view_raw__'):
+            me = self.__view_raw__
         else:
             me = self
-            table = me.__table__
-
         
         #Page Number
         if 'p' in args:
@@ -39,17 +39,15 @@ class CrudBase(Model):
         else:
             args['rp']=25
 
+        # Search Raw
+        if qraw is not None:
+            me = me.where_raw(qraw)
+
         # Filter
         if 'f' in args:
             if len(args['f']):
                 for k, v in args['f'].items():
                     me = me.where(k, v)
-
-        # Search Raw
-        if 'q' in args:
-            if args['q'] is not None and args['q'] != '':
-                me = me.where_raw(args['q'])
-
         # Order
         if 'o' in args:
             if args['o'] is not None and len(args['o']):
@@ -121,3 +119,92 @@ class CrudBase(Model):
         me = cls.where(filter_data)
         count = me.get().count()
         return bool(count)
+
+# class CrudBaseMongoDB():
+
+#     @classmethod
+#     def addNew(self, data):
+#         data['created_at']=datetime.now()
+#         data['updated_at']=datetime.now()
+#         _id = self.__collection__.insert(data)
+#         result=self.__collection__.find_one({"_id":_id})
+#         return result
+
+#     @classmethod
+#     def getById(self, id):
+#         result=self.__collection__.find_one({"_id":ObjectId(id)})
+#         return result
+
+#     @classmethod
+#     def getByCustom(self, args):
+#         result=self.__collection__.find_one(args)
+#         return result
+
+    # @classmethod
+    # def getAll(self):
+    #     result=self.__collection__.find_one({"_id":ObjectId(id)})
+    #     return result
+
+#     @classmethod
+#     def doUpdate(self, id, data):
+#         result=self.__collection__.find_one({"_id":ObjectId(id)})
+#         if(result is None):
+#             return None
+#         data['updated_at']=datetime.now()
+#         self.__collection__.update({"_id":ObjectId(id)}, {'$set':data})
+#         return self.getById(id)
+
+#     @classmethod
+#     def delete(self, id):
+#         result=self.__collection__.find_one({"_id":ObjectId(id)})
+#         if(result is None):
+#             return None
+#         self.__collection__.remove({"_id":ObjectId(id)})
+#         return "Deleted"
+
+#     @classmethod
+#     def getList(self, args):
+
+#         # Filter
+#         if 'f' not in args:
+#             args['f']={}
+        
+#         result=self.__collection__.find(args['f'])
+
+#         # Order
+#         if 'o' in args:
+#             if args['o'] is not None and len(args['o']):
+#                 sortList = []
+#                 for k, v in args['o'].items():
+#                     if (v == 1 or v == -1):
+#                         sortBy=(k,v)
+#                         sortList.append(sortBy)
+#                 result=result.sort(sortList)
+
+#         if 'p' in args:
+#             args['p']=int(args['p'])
+#         else:
+#             args['p']=1
+
+#         # Record Per Page
+#         if 'rp' in args:
+#             args['rp']=int(args['rp'])
+#         else:
+#             args['rp']=25
+
+#         skips = args['rp'] * (args['p'] - 1)
+#         data=result.skip(skips).limit(args['rp'])
+
+#         result = {
+#             'args':args,
+#             'data':list(data),
+#             'next':args['p']+1,
+#             'prev':args['p']-1
+#         }   
+#         if len(result['data'])<args['rp']:
+#             result['next']=args['p']
+
+#         if result['prev']==0:
+#             result['prev']=1
+
+#         return result

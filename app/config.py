@@ -39,6 +39,14 @@ class Config():
         'master': MASTER_DATABASE
     }
 
+    MONGODB_HOST = cfg['mongodb']['host']
+    MONGODB_PORT = int(cfg['mongodb']['port'])
+    MONGODB_DB = cfg['mongodb']['db']
+
+    MONGODB_HISTORY_HOST = cfg['mongodb_history']['host']
+    MONGODB_HISTORY_PORT = int(cfg['mongodb_history']['port'])
+    MONGODB_HISTORY_DB = cfg['mongodb_history']['db']
+
     # CACHE
     CACHE_KEY_PREFIX = cfg['cache']['prefix']
     CACHE_REDIS_HOST = cfg['redis']['host']

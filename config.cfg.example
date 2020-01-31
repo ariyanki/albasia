@@ -14,6 +14,16 @@ password = 123456
 prefix =
 log_queries = true
 
+[mongodb]
+host = 127.0.0.1
+port = 27017
+db = albasia
+
+[mongodb_history]
+host = 127.0.0.1
+port = 27017
+db = albasia_history
+
 [cache]
 prefix = albasia_
 timeout = 43200

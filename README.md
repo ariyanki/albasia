@@ -9,6 +9,7 @@ pre requisite:
 - Python 3
 - Python Virtual Environment
 - MySQL database
+- MongoDB
 - Redis
 
 Install Command:
@@ -17,6 +18,7 @@ Install Command:
 - create mysql database schema
 - change orator connection in orator.yaml
 - orator migrate --seed -c orator.yaml
+- create folder app/resources/logs
 
 Uninstall Command:
 - orator migrate:reset -c orator.yaml
@@ -48,7 +50,6 @@ Content-Type:application/json
 	"rp":<RecordPerPage>, 
 	"p":<Page>, 
 	"f":{"<field_name>":"<field_value"},
-	"q":"<raw_query>"
 	"o":{"<field_name>":"<asc_desc>"},
 }
 
@@ -107,10 +108,16 @@ WantedBy=multi-user.target
 
 notes: change directory path based on you configuration.
 
+Start the socket:
+```go
+sudo systemctl start arbajaa.socket
+sudo systemctl enable arbajaa.socket
+```
+
 Start the service:
 ```go
-sudo systemctl start albasia
-sudo systemctl enable albasia
+sudo systemctl start arbajaa.service
+sudo systemctl enable arbajaa.service
 ```
 
 ## Nginx configuration
