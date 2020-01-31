@@ -13,6 +13,7 @@ from app.libraries.util import Util as util
 from werkzeug.contrib.cache import RedisCache
 from app.libraries.exceptions import InvalidResponseException, GeneralResponseException, ConnectionTimeoutException
 from logstash_formatter import LogstashFormatterV1
+from pymongo import MongoClient
 
 app = Flask(__name__, static_folder="static")
 
@@ -26,6 +27,13 @@ elif env == 'development':
 
 api = Api(app)
 db = Orator(app)
+
+client = MongoClient(app.config['MONGODB_HOST'], app.config['MONGODB_PORT'])
+dbmongo = client[app.config['MONGODB_DB']]
+
+client_history = MongoClient(app.config['MONGODB_HISTORY_HOST'], app.config['MONGODB_HISTORY_PORT'])
+dbmongo_history = client[app.config['MONGODB_HISTORY_DB']]
+
 jwt = JWTManager(app)
 revoked_store = redis.StrictRedis(
     host=app.config['CACHE_REDIS_HOST'],
