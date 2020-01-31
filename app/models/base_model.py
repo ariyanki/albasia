@@ -23,8 +23,11 @@ class CrudBase(Model):
     def getList(self, args, qraw=None):
         if hasattr(self, '__view__'):
             me = db.table(self.__view__)
-        elif hasattr(self, '__view_raw__'):
-            me = self.__view_raw__
+        elif hasattr(self, 'use_raw_view'):
+            if self.use_raw_view:
+                me = self.vw()
+            else:
+                me = self
         else:
             me = self
         
