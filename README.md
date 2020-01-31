@@ -110,14 +110,14 @@ notes: change directory path based on you configuration.
 
 Start the socket:
 ```go
-sudo systemctl start arbajaa.socket
-sudo systemctl enable arbajaa.socket
+sudo systemctl start albasia.socket
+sudo systemctl enable albasia.socket
 ```
 
 Start the service:
 ```go
-sudo systemctl start arbajaa.service
-sudo systemctl enable arbajaa.service
+sudo systemctl start albasia.service
+sudo systemctl enable albasia.service
 ```
 
 ## Nginx configuration
