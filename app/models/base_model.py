@@ -3,6 +3,7 @@ import hashlib
 from var_dump import var_dump
 
 from app import db
+from app import dbmongo_history
 from orator import Model, Schema
 from datetime import datetime
 from app.variable_constant import VariableConstant
@@ -120,91 +121,133 @@ class CrudBase(Model):
         count = me.get().count()
         return bool(count)
 
-# class CrudBaseMongoDB():
+class CrudBaseMongoDB():
 
-#     @classmethod
-#     def addNew(self, data):
-#         data['created_at']=datetime.now()
-#         data['updated_at']=datetime.now()
-#         _id = self.__collection__.insert(data)
-#         result=self.__collection__.find_one({"_id":_id})
-#         return result
+    @classmethod
+    def addNew(self, data):
+        data['created_at']=datetime.now()
+        data['updated_at']=datetime.now()
+        _id = self.__collection__.insert(data)
+        result=self.__collection__.find_one({"_id":_id})
+        return result
 
-#     @classmethod
-#     def getById(self, id):
-#         result=self.__collection__.find_one({"_id":ObjectId(id)})
-#         return result
+    @classmethod
+    def getById(self, id):
+        result = None
+        if ObjectId.is_valid(id):
+            result=self.__collection__.find_one({"_id":ObjectId(id)})
+        return result
 
-#     @classmethod
-#     def getByCustom(self, args):
-#         result=self.__collection__.find_one(args)
-#         return result
+    @classmethod
+    def getCount(self, args):
+        result=self.__collection__.count_documents(args)
+        return result
 
-    # @classmethod
-    # def getAll(self):
-    #     result=self.__collection__.find_one({"_id":ObjectId(id)})
-    #     return result
+    @classmethod
+    def getByCustom(self, args):
+        result=self.__collection__.find_one(args)
+        return result
 
-#     @classmethod
-#     def doUpdate(self, id, data):
-#         result=self.__collection__.find_one({"_id":ObjectId(id)})
-#         if(result is None):
-#             return None
-#         data['updated_at']=datetime.now()
-#         self.__collection__.update({"_id":ObjectId(id)}, {'$set':data})
-#         return self.getById(id)
+    @classmethod
+    def getAggregate(self, args):
+        result=self.__collection__.aggregate(args)
+        return result
 
-#     @classmethod
-#     def delete(self, id):
-#         result=self.__collection__.find_one({"_id":ObjectId(id)})
-#         if(result is None):
-#             return None
-#         self.__collection__.remove({"_id":ObjectId(id)})
-#         return "Deleted"
+    @classmethod
+    def getAll(self,args=None):
+        if args is not None:
+            result=self.__collection__.find(args)
+        else:
+            result=self.__collection__.find()
+        return result
 
-#     @classmethod
-#     def getList(self, args):
-
-#         # Filter
-#         if 'f' not in args:
-#             args['f']={}
+    @classmethod
+    def doUpdate(self, id, data):
+        result=self.__collection__.find_one({"_id":ObjectId(id)})
+        if(result is None):
+            return None
+        # #save old data
+        # hist = result.copy()
+        # hist['id']=hist['_id']
+        # del hist['_id']
+        # dbmongo_history[self.__collection__.name].insert(hist)
         
-#         result=self.__collection__.find(args['f'])
+        data['updated_at']=datetime.now()
+        self.__collection__.update({"_id":ObjectId(id)}, {'$set':data})
+        return self.getById(id)
 
-#         # Order
-#         if 'o' in args:
-#             if args['o'] is not None and len(args['o']):
-#                 sortList = []
-#                 for k, v in args['o'].items():
-#                     if (v == 1 or v == -1):
-#                         sortBy=(k,v)
-#                         sortList.append(sortBy)
-#                 result=result.sort(sortList)
+    @classmethod
+    def doUpdateWithHistory(self, id, data):
+        result=self.__collection__.find_one({"_id":ObjectId(id)})
+        if(result is None):
+            return None
+        #save old data
+        hist = result.copy()
+        hist['id']=hist['_id']
+        del hist['_id']
+        dbmongo_history[self.__collection__.name].insert(hist)
+        
+        data['updated_at']=datetime.now()
+        self.__collection__.update({"_id":ObjectId(id)}, {'$set':data})
+        return self.getById(id)
 
-#         if 'p' in args:
-#             args['p']=int(args['p'])
-#         else:
-#             args['p']=1
+    @classmethod
+    def doDelete(self, id):
+        result=self.__collection__.find_one({"_id":ObjectId(id)})
+        if(result is None):
+            return None
+        #save old data
+        hist = result.copy()
+        hist['id']=hist['_id']
+        del hist['_id']
+        dbmongo_history[self.__collection__.name].insert(hist)
+        
+        self.__collection__.remove({"_id":ObjectId(id)})
+        return "Deleted"
 
-#         # Record Per Page
-#         if 'rp' in args:
-#             args['rp']=int(args['rp'])
-#         else:
-#             args['rp']=25
+    @classmethod
+    def getList(self, args):
 
-#         skips = args['rp'] * (args['p'] - 1)
-#         data=result.skip(skips).limit(args['rp'])
+        # Filter
+        if 'f' not in args:
+            args['f']={}
+        
+        result=self.__collection__.find(args['f'])
 
-#         result = {
-#             'args':args,
-#             'data':list(data),
-#             'next':args['p']+1,
-#             'prev':args['p']-1
-#         }   
-#         if len(result['data'])<args['rp']:
-#             result['next']=args['p']
+        # Order
+        if 'o' in args:
+            if args['o'] is not None and len(args['o']):
+                sortList = []
+                for k, v in args['o'].items():
+                    if (v == 1 or v == -1):
+                        sortBy=(k,v)
+                        sortList.append(sortBy)
+                result=result.sort(sortList)
 
-#         if result['prev']==0:
-#             result['prev']=1
+        if 'p' in args:
+            args['p']=int(args['p'])
+        else:
+            args['p']=1
 
-#         return result
+        # Record Per Page
+        if 'rp' in args:
+            args['rp']=int(args['rp'])
+        else:
+            args['rp']=25
+
+        skips = args['rp'] * (args['p'] - 1)
+        data=result.skip(skips).limit(args['rp'])
+
+        result = {
+            'args':args,
+            'data':list(data),
+            'next':args['p']+1,
+            'prev':args['p']-1
+        }   
+        if len(result['data'])<args['rp']:
+            result['next']=args['p']
+
+        if result['prev']==0:
+            result['prev']=1
+
+        return result
