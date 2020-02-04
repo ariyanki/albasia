@@ -7,4 +7,5 @@ Cerberus==1.1
 redis==2.10.5
 logstash-formatter==0.5.16
 pymongo==3.6.0
+pytest
 gunicorn

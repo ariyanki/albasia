@@ -24,6 +24,10 @@ elif env == 'staging':
     app.config.from_object(config.StagingConfig)
 elif env == 'development':
     app.config.from_object(config.DevelopmentConfig)
+elif env == 'testing':
+    app.config.from_object(config.TestingConfig)
+else:
+    raise RuntimeError("Your FLASK_ENV is not defined")
 
 api = Api(app)
 db = Orator(app)

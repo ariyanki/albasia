@@ -29,6 +29,9 @@ Uninstall Command:
 - change project mysql connection in config.cfg
 - python run.py
 
+## Testing
+- py.test --maxfail=1 --cov=app -p no:warnings --cov-report xml:app/resources/coverage/test.xml tests/
+
 ### Website
 - url: http://127.0.0.1:8899/
 - username: admin, password: 123456

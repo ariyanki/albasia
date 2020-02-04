@@ -98,3 +98,19 @@ class StagingConfig(Config):
 
 class DevelopmentConfig(Config):
     DEBUG = True
+
+class TestingConfig(Config):
+    MASTER_DATABASE = {
+        'driver': 'mysql',
+        'host': cfg['mysql']['host'],
+        'database': cfg['mysql']['db']+"_testing",
+        'user': cfg['mysql']['user'],
+        'password': cfg['mysql']['password'],
+        'prefix': cfg['mysql']['prefix'],
+        'log_queries': True
+    }
+    ORATOR_DATABASES = {
+        'default': 'master',
+        'master': MASTER_DATABASE
+    }
+    DEBUG = True
